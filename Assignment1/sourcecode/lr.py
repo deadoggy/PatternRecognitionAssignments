@@ -60,12 +60,5 @@ class LogisticRegression:
         sigmod_v = 1.0/(1.0+np.exp(-self._beta.T*x))
         return 1 if sigmod_v >= 0.5 else 0
 
-
-X = np.array([[0.5,0.5],[1.,1.],[5.,5.5],[4.5,4.]])
-y = np.array([1,1,0,0])
-
-lr = LogisticRegression()
-lr.fit(X,y)
-label = lr.predict(np.array([50.,41.]))
-print label    
+    
 
