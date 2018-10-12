@@ -14,7 +14,6 @@ car_data = {
     'X_0':[]
 }
 
-
 car_dict = {
     'vhigh':3,
     'high':2,
@@ -47,8 +46,6 @@ for line in lines:
     else:
         car_data['X_0'].append(rec)
         
-    
-
 with open(data_folder + '/car.json', 'w') as car_out:
     json.dump(car_data, car_out)
 
@@ -61,7 +58,6 @@ bank_data = {
     'X_1':[]
 }
 
-# 9, 10 ignore
 bank_dict = {
     '"admin."':0,
     '"blue-collar"':1,
@@ -94,8 +90,7 @@ bank_dict = {
     '"success"':2
 }
 
-
-
+# 9, 10 ignore
 for i, line in enumerate(lines):
     if ''==line or i==0:
         continue
@@ -119,4 +114,3 @@ for i, line in enumerate(lines):
 with open(data_folder + '/bank.json', 'w') as bank_out:
     json.dump(bank_data, bank_out)
 
-pass

@@ -45,16 +45,22 @@ class LogisticRegression:
                 break
             self._beta -= diff
     
-    def predict(self, X):
+    def predict(self, X, prob=False):
         '''
             predict label of X, must be invoked after fit()
 
-            @x: np.ndarray, shape: [n_samples, n_features]
+            @X: np.ndarray, shape: [n_samples, n_features]
+
+            @prob: bool, whether return probability or label
 
             #return: np.ndarray(), shape: [n_samples,]
         '''
-
+        if self._beta is None:
+            raise Exception('fit not invoked yet')
         X = np.matrix(np.hstack((X,np.ones((X.shape[0],1))))).T
         sigmod_v = 1.0/(1.0+np.exp(-self._beta.T*X))
-        return np.array(sigmod_v.flatten().tolist()[0])
-
+        if prob:
+            return np.array(sigmod_v.flatten().tolist()[0])
+        else:
+            label_res = (sigmod_v.flatten()>=0.5).astype(int)
+            return np.array(label_res.tolist()[0])
