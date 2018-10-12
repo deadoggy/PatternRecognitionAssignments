@@ -4,17 +4,20 @@ import numpy as np
 
 class LogisticRegression:
 
-    def __init__(self, tol = 1e-4, max_itr=300):
+    def __init__(self, tol = 1e-4, max_itr=300, beta=None):
         '''
             init function of LogisticRegression
 
             @tol: float, tolerance for stopping criteria
 
             @max_itr: int, max iterations
+
+            @beta: np.array/list, shape: [n_features,]
         '''
         self._tol = tol
         self._max_itr = max_itr
-        self._beta = None
+        self._beta = np.matrix(beta).T
+        self._fityet = False
     def fit(self, X,y):
         '''
             fit model using test data X and label y
@@ -30,7 +33,9 @@ class LogisticRegression:
         y = np.matrix(y).T # shape: [n_samples, 1]
         d = X.shape[0]
         p_1_func = lambda X, beta: 1/(1+np.exp(-X.T*beta))
-        self._beta = np.matrix(np.zeros((d,1)))
+        self._beta = np.matrix(np.zeros((d,1))) if self._beta is None else self._beta
+        if self._beta.shape[0] != d:
+            raise Exception('beta dimension error')
         #newton iteration
         itrs = 0
         while itrs < self._max_itr:
@@ -44,6 +49,7 @@ class LogisticRegression:
             if np.linalg.norm(diff) < self._tol:
                 break
             self._beta -= diff
+        self._fityet = True
     
     def predict(self, X, prob=False):
         '''
