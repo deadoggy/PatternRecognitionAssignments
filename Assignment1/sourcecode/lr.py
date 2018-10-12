@@ -9,6 +9,7 @@ class LogisticRegression:
             init function of LogisticRegression
 
             @tol: float, tolerance for stopping criteria
+
             @max_itr: int, max iterations
         '''
         self._tol = tol
@@ -24,14 +25,13 @@ class LogisticRegression:
 
             #return: void 
         '''
+        #init
         X = np.matrix(np.hstack((X, np.ones((X.shape[0],1))))).T # shape: [n_features, n_sample]
         y = np.matrix(y).T # shape: [n_samples, 1]
-
         d = X.shape[0]
         p_1_func = lambda X, beta: 1/(1+np.exp(-X.T*beta))
-        
         self._beta = np.matrix(np.zeros((d,1)))
-
+        #newton iteration
         itrs = 0
         while itrs < self._max_itr:
             itrs += 1
@@ -39,26 +39,22 @@ class LogisticRegression:
             df = -1 * X*(y-p_1)
             ddf = np.matrix(np.zeros((d,d)))
             for i in xrange(X.shape[1]):
-                ddf += (p_1[i,:]*(1-p_1[i,:]))[0,0] * X[:,i] * X[:,i].T
-            
+                ddf += (p_1[i,:]*(1-p_1[i,:]))[0,0] * X[:,i] * X[:,i].T 
             diff = np.linalg.pinv(ddf) * df
             if np.linalg.norm(diff) < self._tol:
                 break
-            
             self._beta -= diff
     
-    def predict(self, x):
+    def predict(self, X):
         '''
-            predict label of x, must be invoked after fit()
+            predict label of X, must be invoked after fit()
 
-            @x: np.ndarray, shape: [n_features, ]
+            @x: np.ndarray, shape: [n_samples, n_features]
 
-            #return: 0/1
+            #return: np.ndarray(), shape: [n_samples,]
         '''
 
-        x = np.matrix(np.hstack((x,np.array([1])))).T
-        sigmod_v = 1.0/(1.0+np.exp(-self._beta.T*x))
-        return 1 if sigmod_v >= 0.5 else 0
-
-    
+        X = np.matrix(np.hstack((X,np.ones((X.shape[0],1))))).T
+        sigmod_v = 1.0/(1.0+np.exp(-self._beta.T*X))
+        return np.array(sigmod_v.flatten().tolist()[0])
 
