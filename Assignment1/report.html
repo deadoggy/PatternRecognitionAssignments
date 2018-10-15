@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-alpha/dist/katex.min.css" integrity="sha384-BTL0nVi8DnMrNdMQZG1Ww6yasK9ZGnUxL1ZWukXQ7fygA1py52yPp9W4wrR00VML" crossorigin="anonymous">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 26px; line-height: 22px; word-wrap: break-word; } #code-csp-warning { position: fixed; top: 0; right: 0; color: white; margin: 16px; text-align: center; font-size: 12px; font-family: sans-serif; background-color:#444444; cursor: pointer; padding: 6px; box-shadow: 1px 1px 1px rgba(0,0,0,.25); } #code-csp-warning:hover { text-decoration: none; background-color:#007acc; box-shadow: 2px 2px 2px rgba(0,0,0,.25); } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-light.showEditorSelection .code-line .code-line:hover:before { border-left: none; } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-dark.showEditorSelection .code-line .code-line:hover:before { border-left: none; } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } .vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before { border-left: none; } img { max-width: 100%; max-height: 100%; } a { text-decoration: none; } a:hover { text-decoration: underline; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left-width: 5px; border-left-style: solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } pre:not(.hljs), pre.hljs code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ pre code { color: var(--vscode-editor-foreground); } .vscode-light pre:not(.hljs), .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark pre:not(.hljs), .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast pre:not(.hljs), .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } 
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="assignment-1-report">Assignment 1 Report</h1>
+<h3 id="from-1831604-zhang-yinjia">from 1831604 Zhang Yinjia</h3>
+<h2 id="1-dataset-description">1. Dataset Description</h2>
+<p>The two datasets selected from UCI  are <a href="http://archive.ics.uci.edu/ml/datasets/Iris">IRIS</a> and <a href="http://archive.ics.uci.edu/ml/datasets/Skin+Segmentation">Skin Segmentation Data Set </a>.</p>
+<p>The <a href="http://archive.ics.uci.edu/ml/datasets/Iris">IRIS</a> is a classic dataset with <code>4</code> numeric attribute,
+,containing 3 classes of 50 instances each, where each class refers to a type of iris plant. In this
+experimtns, I only use 0-th, 2-th and 3-th attributes and two kinds of labels which are 0-Setosa and 1-Not Setosa.</p>
+<p>The <a href="http://archive.ics.uci.edu/ml/datasets/Skin+Segmentation">Skin Segmentation Data Set </a> is collected by
+randomly sampling B,G,R values from face images of various age groups (young, middle, and old), race groups
+(white, black, and asian), and genders obtained from FERET database and PAL database. Total learning sample
+size is 245057; out of which 50859 is the skin samples and 194198 is non-skin samples. In this experiment I
+retrieve 5000 data points in both two classes.</p>
+<h2 id="data-preprocessing">Data Preprocessing</h2>
+<h3 id="step1-max-min-scale">Step1. Max-Min Scale</h3>
+<p>For both categorical and numeric data, Max-Min Scale is used to restrict values into [0, 1]. The reason is that the ranges of
+numeric data are much different from each other, in this case the initial value of <code>beta=&lt;W;b&gt;</code> may inflect the result of
+logistic regression.</p>
+<h3 id="step2-divide-dataset-into-k-partitons-for-cross-validation">Step2. Divide Dataset into K Partitons for Cross Validation</h3>
+<p>To make full use of dataset, k-fold cross validation is used to evaluate accuracy of logistic regression
+model. In this experiment, the dataset is divided into 10 partitions. For each partition, the other
+partions are treated as training data and test experiment is processed on this partition. The final
+accuracy is calculated as the average accuracy of all these experiments.</p>
+<h2 id="modules-of-source-code">Modules of Source Code</h2>
+<p>The code is divided into three parts: <code>dataprocess.py</code>, <code>lr.py</code> and <code>experiments.py</code></p>
+<h3 id="dataprocesspy"><a href="http://dataprocess.py">dataprocess.py</a></h3>
+<p>The code in this file is to preprocess the original data into vector data. The main logic of preprocessing
+is shown in <code>Data Description</code> section. The output of this module is <code>iris.json</code> and <code>skin.json</code>, whose
+structure is:</p>
+<pre class="hljs"><code><div> {
+     'X_0': [[],[],...],
+     'X_1': [[],[],...]
+ }
+</div></code></pre>
+<p>The <code>X_0</code> is the data whose label is <code>0</code> and the <code>X_1</code> is the data whose label is <code>1</code>.</p>
+<h3 id="lrpy"><a href="http://lr.py">lr.py</a></h3>
+<p>This module contains the code of logistic regression. The function is organized as class
+LogisticRegression. This class contains two functions: <code>fit</code> and
+<code>predict</code>. <code>fit</code> is used to train model using test data. The first part
+of <code>fit</code> is initialization. The code is shown as follows:</p>
+<pre class="hljs"><code><div>    <span class="hljs-comment">#init</span>
+    X = np.matrix(np.hstack((X, np.ones((X.shape[<span class="hljs-number">0</span>],<span class="hljs-number">1</span>))))).T <span class="hljs-comment"># shape: [n_features, n_sample]</span>
+    y = np.matrix(y).T <span class="hljs-comment"># shape: [n_samples, 1]</span>
+    d = X.shape[<span class="hljs-number">0</span>]
+    p_1_func = <span class="hljs-keyword">lambda</span> X, beta: <span class="hljs-number">1</span>/(<span class="hljs-number">1</span>+np.exp(-X.T*beta))
+    self._beta = np.matrix(np.zeros((d,<span class="hljs-number">1</span>))) <span class="hljs-keyword">if</span> self._beta <span class="hljs-keyword">is</span> <span class="hljs-keyword">None</span> <span class="hljs-keyword">else</span> self._beta
+    <span class="hljs-keyword">if</span> self._beta.shape[<span class="hljs-number">0</span>] != d:
+        <span class="hljs-keyword">raise</span> Exception(<span class="hljs-string">'beta dimension error'</span>)
+</div></code></pre>
+<p>X here is the data matrix. First we add <code>1</code> to each vector and transform
+it into shape [n_features, n_samples]. <code>y</code> is the ground truth of data.
+<code>d</code> is the dimension of data, which is <code>n_features</code>. <code>p_1_function</code> is the
+lambda function to calculate <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>β</mi><mi mathvariant="normal">.</mi><mi>T</mi><mi>x</mi></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{1+e^{-\beta .Tx}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.260859em;vertical-align:-0.41575099999999987em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.64258em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathit mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7820285714285713em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathit mtight" style="margin-right:0.05278em;">β</span><span class="mord mtight">.</span><span class="mord mathit mtight" style="margin-right:0.13889em;">T</span><span class="mord mathit mtight">x</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.41575099999999987em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> for all data
+<code>X</code>.</p>
+<p>The second part of <code>fit</code> is iterations of newton method. The code is as follows:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">#newton iteration</span>
+    itrs = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">while</span> itrs &lt; self._max_itr:
+        itrs += <span class="hljs-number">1</span>
+        p_1 = p_1_func(X, self._beta)
+        df = <span class="hljs-number">-1</span> * X*(y-p_1)
+        ddf = np.matrix(np.zeros((d,d)))
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(X.shape[<span class="hljs-number">1</span>]):
+            ddf += (p_1[i,:]*(<span class="hljs-number">1</span>-p_1[i,:]))[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] * X[:,i] * X[:,i].T 
+        diff = np.linalg.pinv(ddf) * df
+        <span class="hljs-keyword">if</span> np.linalg.norm(diff) &lt; self._tol:
+            <span class="hljs-keyword">break</span>
+        self._beta -= diff
+</div></code></pre>
+<p><code>itrs</code> is the max times of iterations. First the <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>β</mi><mi mathvariant="normal">.</mi><mi>T</mi><mi>x</mi></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{1+e^{-\beta .Tx}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.260859em;vertical-align:-0.41575099999999987em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.64258em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathit mtight">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7820285714285713em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathit mtight" style="margin-right:0.05278em;">β</span><span class="mord mtight">.</span><span class="mord mathit mtight" style="margin-right:0.13889em;">T</span><span class="mord mathit mtight">x</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.41575099999999987em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>
+is calculated by <code>p_1_function</code>. <code>df = -1 * X*(y-p_1)</code> is to calculate
+first derivative of <code>X</code> and</p>
+<pre class="hljs"><code><div>    ddf = np.matrix(np.zeros((d,d)))
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(X.shape[<span class="hljs-number">1</span>]):
+        ddf += (p_1[i,:]*(<span class="hljs-number">1</span>-p_1[i,:]))[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] * X[:,i] * X[:,i].T
+</div></code></pre>
+<p>is to calculate second derivative of <code>X</code>. The step in newton method is
+calculated by <code>diff = np.linalg.pinv(ddf) * df</code>. If the matrix <code>ddf</code> can
+not be inversed, the pseudo inverse matrix of <code>ddf</code> is calculated instead.
+When the step is less than <code>self._tol</code>, the iteration will be interrupted.</p>
+<p>The <code>predict</code> method is to predict a data record. Before invoking predict,
+the <code>fit</code> method must be invoked to training the model. It can be chosen
+whether return labels or probilities.</p>
+<h3 id="experimentspy"><a href="http://experiments.py">experiments.py</a></h3>
+<p>There are three parts in <code>experiments.py</code>. The first part is loading data
+from  json file and scaling data into range [0, 1].  The second part is
+generating k equal partitions of dataset in order to process <code>k-fold cross validation</code>.</p>
+<p>The third part of this module is running the experiments. To reduce the
+impact of initialization of beta, <code>5</code> initial betas, one is all-zero and
+others are composed by random values from -2 to +2. For each initial beta,
+<code>5-fold cross validation</code> is processed. The beta with the best accuracy
+is selected as the final beta in model and the average accuracy of this
+model is treated as the final accuracy.</p>
+<h2 id="result-figure">Result Figure</h2>
+<p>The result in this section comes from processing <code>predict</code> on the <code>5th-fold</code>
+of the partitions using the final beta. In all figures, class information is
+represented by the color of data points, and betas are represented by a
+surface in the space.</p>
+<h3 id="iris">Iris</h3>
+<blockquote>
+<p>Due to the huge diversity between different classes, the average accuracy
+of <code>cross validation</code> is <code>1.0</code>, which means that <code>Logistic Regression</code> can
+totally classifies the data into two parts correctly. And in the following
+figure, the accuracy is <code>1.0</code>, too.
+<img src="iris_1.png" alt="iris"></p>
+</blockquote>
+<h3 id="skin">Skin</h3>
+<blockquote>
+<p>The average accuracy of <code>cross validation</code> is <code>0.992699</code>, and for <code>5th-fold</code>
+of the partitions, its accuracy is <code>0.989</code>.  It can be seen that the diversity
+between different classes is not as obvious as that in <code>Iris</code>, but the <code>Logistic Regression</code>
+can also divide the dataset correctly. In following figures, most of the red data point
+are above of the surface and blue ones are below the surface.
+<img src="skin_1.png" alt="skin_1">
+<img src="skin_2.png" alt="skin_2">
+<img src="skin_3.png" alt="skin_3"></p>
+</blockquote>
+<br>
+<br>
+<br>
+<h2 id="improvements">Improvements</h2>
+<ol>
+<li>When the dataset is high-dimension, dimension reduction such as <code>PCA</code> and <code>LDA</code> can be introduced into data processing. And it's critical to balance the numer of dimension left and the loss of information during dimension reduction.</li>
+<li>Sometimes newton method can lead to a local optimization, which may be not acceptable. In this case, we can use some other initial values for target parameters.</li>
+<li>There may be overfitting in logistic regression. In this case, we can introduce regularization into the loss function.</li>
+</ol>
+
+    </body>
+    </html>

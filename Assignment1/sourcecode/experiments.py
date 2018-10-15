@@ -13,14 +13,14 @@ from sklearn.preprocessing import scale, MinMaxScaler
 
 #load
 data_path = sys.path[0] + '/../dataset/%s.json'
-data_name = 'car'
+data_name = 'iris'
 with open(data_path%data_name) as data_f:
     data = json.load(data_f)
 dimension = len(data[data.keys()[0]][0])
 
 #config experiments
-components = 2 #components when dimension reduction using PCA
-cv_k = 10 #k in k-fold cross validation
+components = dimension #components when dimension reduction using PCA
+cv_k = 4 #k in k-fold cross validation
 betas = 5 #number of random initial beta(include [0., 0., ...])
 
 # scale
@@ -49,7 +49,6 @@ for i in xrange(len(data.keys())):
             set_index -= 1
         k_X_set[set_index].append(vec)
         k_y_set[set_index].append(i)
-
 
 for i in xrange(len(k_X_set)):
     k_X_set[i] = np.array(k_X_set[i])
@@ -105,7 +104,8 @@ out_json = {
     'predict_y': label.tolist(),
     'truth_y': k_y_set[cv_k-1].tolist(),
     'beta': lr._beta.T.tolist(),
-    'rate': rate
+    'rate': rate,
+    'average_rate': best_rate
 }
 
 with open(sys.path[0] + '/../dataset/%s.out'%data_name, "w") as out:

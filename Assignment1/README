@@ -1,0 +1,18 @@
+To run the experiments, enter the folder sourcecode and type following command in terminal:
+
+>python experiments.py
+
+In the 16-th line of experiments.py, variable dataname means which dataset is processed. It can be
+'iris' and 'skin'.
+
+the result of the experiments are 'dataset/<data_name>.out' in json type, json structure is:
+
+{
+    'X': <list, 2d>,
+    'predict_y': <list, 1d>,
+    'truth_y': <list, 1d>,
+    'beta': <list, 1d>,
+    'rate': float,
+    'average_rate': float
+}
+
