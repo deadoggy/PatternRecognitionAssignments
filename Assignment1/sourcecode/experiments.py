@@ -6,17 +6,25 @@ import json
 from lr import LogisticRegression
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from sklearn.decomposition import PCA
+from sklearn.preprocessing import scale, MinMaxScaler
 
 #load data and config experiments
 ################################################################################
 data_path = sys.path[0] + '/../dataset/%s.json'
-data_name = 'car'
+data_name = 'bank'
 with open(data_path%data_name) as data_f:
     data = json.load(data_f)
+# scale
+l1_len = len(data['X_1'])
+minmaxscaler = MinMaxScaler()
+scale_array = minmaxscaler.fit_transform(np.array(data['X_1'] + data['X_0']))
+data['X_1'] = scale_array[0:l1_len]
+data['X_0'] = scale_array[l1_len:]
+
 dimension = len(data[data.keys()[0]][0])
 
 #config experiments
-components = dimension #components when dimension reduction
+components = 2 #components when dimension reduction using PCA
 cv_k = 10 #k in k-fold cross validation
 betas = 5 #number of random initial beta(include [0., 0., ...])
 
@@ -45,10 +53,11 @@ for si in xrange(cv_k):
 #run experiments by cross validation
 ###############################################################################
 initial_beta = ((np.random.random_sample(size=(betas-1, components+1))-0.5)*4).tolist() if betas > 1 else []
-initial_beta.append([0. for i in xrange(components+1)])
+initial_beta.insert(0, [0. for i in xrange(components+1)])
 
 best_initial_beta = None
 best_rate = -0.1
+best_label = None
 for beta in initial_beta:
     tmp_rate = 0.
     for i, test_X in enumerate(k_X_set):
@@ -74,6 +83,28 @@ for beta in initial_beta:
 
 print best_initial_beta
 print best_rate
+
+lr = LogisticRegression(beta=best_initial_beta)
+X = []
+y = []
+for i in xrange(cv_k-1):
+    X.append(k_X_set[i])
+    y.append(k_y_set[i])
+X = np.vstack(X)
+y = np.hstack(y)
+lr.fit(X, y)
+label = lr.predict(k_X_set[cv_k-1])
+rate = 1.0-(k_y_set[cv_k-1]^label).sum()/float(len(label))
+out_json = {
+    'X': k_X_set[cv_k-1].tolist(),
+    'predict_y': label.tolist(),
+    'truth_y': k_y_set[cv_k-1].tolist(),
+    'beta': lr._beta.T.tolist(),
+    'rate': rate
+}
+
+with open(sys.path[0] + '/../dataset/%s.out'%data_name, "w") as out:
+    json.dump(out_json, out)
 
         
 
