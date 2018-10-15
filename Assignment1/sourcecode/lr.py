@@ -29,6 +29,8 @@ class LogisticRegression:
             #return: void 
         '''
         #init
+        X = np.array(X)
+        y = np.array(y)
         X = np.matrix(np.hstack((X, np.ones((X.shape[0],1))))).T # shape: [n_features, n_sample]
         y = np.matrix(y).T # shape: [n_samples, 1]
         d = X.shape[0]
@@ -63,6 +65,7 @@ class LogisticRegression:
         '''
         if self._beta is None:
             raise Exception('fit not invoked yet')
+        X = np.array(X)
         X = np.matrix(np.hstack((X,np.ones((X.shape[0],1))))).T
         sigmod_v = 1.0/(1.0+np.exp(-self._beta.T*X))
         if prob:

@@ -75,3 +75,80 @@ accuracy is calculated as the average accuracy of all these experiments.
 
 ## Modules of Source Code
 
+The code is divided into three parts: `dataprocess.py`, `lr.py` and `experiments.py`
+
+### dataprocess.py
+
+The code in this file is to preprocess the original data into vector data. The main logic of preprocessing
+is shown in `Data Description` section. The output of this module is `car.json` and `bank.json`, whose 
+structure is:
+```json
+ {
+     'X_0': [[],[],...],
+     'X_1': [[],[],...]
+ }
+```
+The `X_0` is the data whose label is `0` and the `X_1` is the data whose label is `1`.
+
+### lr.py
+
+This module contains the code of logistic regression. The function is organized as class 
+LogisticRegression. This class contains two functions: `fit` and
+`predict`. `fit` is used to train model using test data. The first part
+of `fit` is initialization. The code is shown as follows:
+```python
+    #init
+    X = np.matrix(np.hstack((X, np.ones((X.shape[0],1))))).T # shape: [n_features, n_sample]
+    y = np.matrix(y).T # shape: [n_samples, 1]
+    d = X.shape[0]
+    p_1_func = lambda X, beta: 1/(1+np.exp(-X.T*beta))
+    self._beta = np.matrix(np.zeros((d,1))) if self._beta is None else self._beta
+    if self._beta.shape[0] != d:
+        raise Exception('beta dimension error')
+```
+
+X here is the data matrix. First we add `1` to each vector and transform
+it into shape [n_features, n_samples]. `y` is the ground truth of data. 
+`d` is the dimension of data, which is `n_features`. `p_1_function` is the
+lambda function to calculate $\frac{1}{1+e^{-\beta .Tx}}$ for all data 
+`X`.
+
+The second part of `fit` is iterations of newton method. The code is as follows:
+```python
+#newton iteration
+    itrs = 0
+    while itrs < self._max_itr:
+        itrs += 1
+        p_1 = p_1_func(X, self._beta)
+        df = -1 * X*(y-p_1)
+        ddf = np.matrix(np.zeros((d,d)))
+        for i in xrange(X.shape[1]):
+            ddf += (p_1[i,:]*(1-p_1[i,:]))[0,0] * X[:,i] * X[:,i].T 
+        diff = np.linalg.pinv(ddf) * df
+        if np.linalg.norm(diff) < self._tol:
+            break
+        self._beta -= diff
+```
+`itrs` is the max times of iterations. First the $\frac{1}{1+e^{-\beta .Tx}}$ 
+is calculated by `p_1_function`. `df = -1 * X*(y-p_1)` is to calculate 
+first derivative of `X` and 
+```python
+    ddf = np.matrix(np.zeros((d,d)))
+    for i in xrange(X.shape[1]):
+        ddf += (p_1[i,:]*(1-p_1[i,:]))[0,0] * X[:,i] * X[:,i].T
+```
+is to calculate second derivative of `X`. The step in newton method is
+calculated by `diff = np.linalg.pinv(ddf) * df`. If the matrix `ddf` can
+not be inversed, the pseudo inverse matrix of `ddf` is calculated instead.
+When the step is less than `self._tol`, the iteration will be interrupted.
+
+The `predict` method is to predict a data record. Before invoking predict,
+the `fit` method must be invoked to training the model. It can be chosen 
+whether return labels or probilities.
+
+### experiments.py
+
+There are three parts in `experiments.py`. The first part is loading data 
+from  json file and scale data into range [0, 1]. The second part is using
+`PCA` to reduce data to 2 dimensions. Then all the dataset is partitioned
+into 10 parts equally.

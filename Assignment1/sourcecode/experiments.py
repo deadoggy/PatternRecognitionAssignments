@@ -8,25 +8,32 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import scale, MinMaxScaler
 
-#load data and config experiments
+#load data, config experiments, scale and dimension reduction
 ################################################################################
+
+#load
 data_path = sys.path[0] + '/../dataset/%s.json'
-data_name = 'bank'
+data_name = 'car'
 with open(data_path%data_name) as data_f:
     data = json.load(data_f)
-# scale
-l1_len = len(data['X_1'])
-minmaxscaler = MinMaxScaler()
-scale_array = minmaxscaler.fit_transform(np.array(data['X_1'] + data['X_0']))
-data['X_1'] = scale_array[0:l1_len]
-data['X_0'] = scale_array[l1_len:]
-
 dimension = len(data[data.keys()[0]][0])
 
 #config experiments
 components = 2 #components when dimension reduction using PCA
 cv_k = 10 #k in k-fold cross validation
 betas = 5 #number of random initial beta(include [0., 0., ...])
+
+# scale
+l1_len = len(data['X_1'])
+minmaxscaler = MinMaxScaler()
+scale_array = minmaxscaler.fit_transform(np.array(data['X_1'] + data['X_0']))
+
+#dimension reduction
+dim_reducer = PCA(n_components=components, svd_solver='full') if components!=dimension else None
+if dim_reducer is not None:
+    scale_array = dim_reducer.fit_transform(scale_array)
+data['X_1'] = scale_array[0:l1_len]
+data['X_0'] = scale_array[l1_len:]
 
 #generate k-fold cross validation set
 ################################################################################
@@ -43,12 +50,10 @@ for i in xrange(len(data.keys())):
         k_X_set[set_index].append(vec)
         k_y_set[set_index].append(i)
 
-#dimensionality reduction using LDA
-###############################################################################
-dim_reducer = PCA(n_components=components) if components!=dimension else None
-for si in xrange(cv_k):
-    k_y_set[si] = np.array(k_y_set[si])
-    k_X_set[si] = dim_reducer.fit_transform(k_X_set[si]) if dim_reducer is not None else np.array(k_X_set[si])
+
+for i in xrange(len(k_X_set)):
+    k_X_set[i] = np.array(k_X_set[i])
+    k_y_set[i] = np.array(k_y_set[i])
 
 #run experiments by cross validation
 ###############################################################################
