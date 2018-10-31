@@ -61,11 +61,12 @@ LogisticRegression. This class contains two functions: <code>fit</code> and
 <code>predict</code>. <code>fit</code> is used to train model using test data. The first part
 of <code>fit</code> is initialization. The code is shown as follows:</p>
 <pre class="hljs"><code><div>    <span class="hljs-comment">#init</span>
-    X = np.matrix(np.hstack((X, np.ones((X.shape[<span class="hljs-number">0</span>],<span class="hljs-number">1</span>))))).T <span class="hljs-comment"># shape: [n_features, n_sample]</span>
+    X = np.matrix(np.hstack((X, np.ones((X.shape[<span class="hljs-number">0</span>],<span class="hljs-number">1</span>))))).T 
     y = np.matrix(y).T <span class="hljs-comment"># shape: [n_samples, 1]</span>
     d = X.shape[<span class="hljs-number">0</span>]
     p_1_func = <span class="hljs-keyword">lambda</span> X, beta: <span class="hljs-number">1</span>/(<span class="hljs-number">1</span>+np.exp(-X.T*beta))
-    self._beta = np.matrix(np.zeros((d,<span class="hljs-number">1</span>))) <span class="hljs-keyword">if</span> self._beta <span class="hljs-keyword">is</span> <span class="hljs-keyword">None</span> <span class="hljs-keyword">else</span> self._beta
+    self._beta = np.matrix(np.zeros((d,<span class="hljs-number">1</span>))) \ 
+        <span class="hljs-keyword">if</span> self._beta <span class="hljs-keyword">is</span> <span class="hljs-keyword">None</span> <span class="hljs-keyword">else</span> self._beta
     <span class="hljs-keyword">if</span> self._beta.shape[<span class="hljs-number">0</span>] != d:
         <span class="hljs-keyword">raise</span> Exception(<span class="hljs-string">'beta dimension error'</span>)
 </div></code></pre>
@@ -124,7 +125,7 @@ surface in the space.</p>
 of <code>cross validation</code> is <code>1.0</code>, which means that <code>Logistic Regression</code> can
 totally classifies the data into two parts correctly. And in the following
 figure, the accuracy is <code>1.0</code>, too.
-<img src="iris_1.png" alt="iris"></p>
+<img src="file:///home/yinjia/Documents/PatternRecognitionAssignments/Assignment1/iris_1.png" alt="iris"></p>
 </blockquote>
 <h3 id="skin">Skin</h3>
 <blockquote>
@@ -133,13 +134,12 @@ of the partitions, its accuracy is <code>0.989</code>.  It can be seen that the 
 between different classes is not as obvious as that in <code>Iris</code>, but the <code>Logistic Regression</code>
 can also divide the dataset correctly. In following figures, most of the red data point
 are above of the surface and blue ones are below the surface.
-<img src="skin_1.png" alt="skin_1">
-<img src="skin_2.png" alt="skin_2">
-<img src="skin_3.png" alt="skin_3"></p>
+<img src="file:///home/yinjia/Documents/PatternRecognitionAssignments/Assignment1/skin_1.png" alt="skin_1">
+<img src="file:///home/yinjia/Documents/PatternRecognitionAssignments/Assignment1/skin_2.png" alt="skin_2">
+<img src="file:///home/yinjia/Documents/PatternRecognitionAssignments/Assignment1/skin_3.png" alt="skin_3"></p>
 </blockquote>
-<br>
-<br>
-<br>
+<br/>
+<br/>
 <h2 id="improvements">Improvements</h2>
 <ol>
 <li>When the dataset is high-dimension, dimension reduction such as <code>PCA</code> and <code>LDA</code> can be introduced into data processing. And it's critical to balance the numer of dimension left and the loss of information during dimension reduction.</li>

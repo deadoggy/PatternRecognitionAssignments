@@ -54,17 +54,18 @@ This module contains the code of logistic regression. The function is organized 
 LogisticRegression. This class contains two functions: `fit` and
 `predict`. `fit` is used to train model using test data. The first part
 of `fit` is initialization. The code is shown as follows:
+
 ```python
     #init
-    X = np.matrix(np.hstack((X, np.ones((X.shape[0],1))))).T # shape: [n_features, n_sample]
+    X = np.matrix(np.hstack((X, np.ones((X.shape[0],1))))).T 
     y = np.matrix(y).T # shape: [n_samples, 1]
     d = X.shape[0]
     p_1_func = lambda X, beta: 1/(1+np.exp(-X.T*beta))
-    self._beta = np.matrix(np.zeros((d,1))) if self._beta is None else self._beta
+    self._beta = np.matrix(np.zeros((d,1))) \ 
+        if self._beta is None else self._beta
     if self._beta.shape[0] != d:
         raise Exception('beta dimension error')
 ```
-
 X here is the data matrix. First we add `1` to each vector and transform
 it into shape [n_features, n_samples]. `y` is the ground truth of data. 
 `d` is the dimension of data, which is `n_features`. `p_1_function` is the
@@ -142,6 +143,9 @@ surface in the space.
 ![skin_1](skin_1.png)
 ![skin_2](skin_2.png)
 ![skin_3](skin_3.png)
+
+<br/>
+<br/>
 
 ## Improvements
 
