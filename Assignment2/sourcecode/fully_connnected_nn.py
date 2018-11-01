@@ -21,7 +21,6 @@ class FullyConnectedNN:
         self._tol = tol
         self._fitted = False
 
-    
     def init_w_b(self):
         '''
             init self._w_mats and self._b_mats
@@ -110,3 +109,25 @@ class FullyConnectedNN:
                 a_vecs.append(self._act_func(np.array(z_vecs[l+1])))
             Y.append(a_vecs[-1])
         return np.array(Y)
+
+def sigmod(x):
+    '''
+        sigmod activation function
+
+        @x: np.ndarray, shape=(n_samples,)
+
+        #y: np.ndarray, shape=(n_samples,)
+    '''
+    x = np.array(x)
+    return 1 / (1 + np.exp(-1*x))
+
+def derivative_sigmod(x):
+    '''
+        derivative function of sigmod function
+
+        @x: np.ndarray, shape=(n_samples,)
+
+        #y: np.ndarray, shape=(n_samples,)
+    '''
+    s = sigmod(np.array(x))
+    return s * (1 - s)
