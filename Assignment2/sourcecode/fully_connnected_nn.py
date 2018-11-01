@@ -4,7 +4,7 @@ import numpy as np
 
 class FullyConnectedNN:
 
-    def __init__(self, layer_sizes, activation_func, derivative_func, tol=1e-3):
+    def __init__(self, layer_sizes, activation_func, derivative_func, tol=1e-3, normal_random_scale = 0.5):
         '''
             init function of Fully Connected Neural Network
 
@@ -20,6 +20,7 @@ class FullyConnectedNN:
         self._der_func = derivative_func
         self._tol = tol
         self._fitted = False
+        self._normal_random_scale = normal_random_scale
 
     def init_w_b(self):
         '''
@@ -27,8 +28,8 @@ class FullyConnectedNN:
         '''
         #init with normal
         for l in xrange(0, self._layer_sizes.shape[0]-1):
-            w_l = np.matrix(np.random.normal(size=(self._layer_sizes[l+1], self._layer_sizes[l]), scale=0.01))
-            b_l = np.matrix(np.random.normal(size=(self._layer_sizes[l+1], 1), scale=0.01))
+            w_l = np.matrix(np.random.normal(size=(self._layer_sizes[l+1], self._layer_sizes[l]), scale=self._normal_random_scale))
+            b_l = np.matrix(np.random.normal(size=(self._layer_sizes[l+1], 1), scale=self._normal_random_scale))
             self._w_mats.append(w_l)
             self._b_mats.append(b_l)
 
@@ -107,7 +108,7 @@ class FullyConnectedNN:
             for l in xrange(self._layer_sizes.shape[0]-1):
                 z_vecs.append(self._w_mats[l]*a_vecs[l]+self._b_mats[l])
                 a_vecs.append(self._act_func(np.array(z_vecs[l+1])))
-            Y.append(a_vecs[-1])
+            Y.append(a_vecs[-1].T[0])
         return np.array(Y)
 
 def sigmod(x):

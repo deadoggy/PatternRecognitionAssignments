@@ -32,10 +32,20 @@ test_X = scale_array[train_len:]
 
 
 #train
-NN = FullyConnectedNN(np.array([13, 20, 3]), sigmod, derivative_sigmod)
+NN = FullyConnectedNN(np.array([13, 13, 3]), sigmod, derivative_sigmod, tol=0.01)
 
 NN.fit(train_X, train_Y, 0.5, 0.)
 
 predict_Y = NN.predict(test_X)
-print predict_Y
-        
+result_Y = []
+for y in predict_Y:
+    max_index = -1
+    max_v = -np.inf
+    for i in xrange(0,3):
+        if y[i]>max_v:
+            max_v = y[i]
+            max_index = i
+    ry = [0,0,0]
+    ry[max_index] = 1
+    result_Y.append(ry)
+print np.array(result_Y) - np.array(test_Y)
