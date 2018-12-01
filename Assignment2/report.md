@@ -29,12 +29,13 @@ The code in this file is used to read data from `iris.data` and `wine.data` in d
 ### full_connected_nn.py
 
 The code in this file implements a fully connetected neural network. Users can pass the structure of neural network and any
-active function they want into this model. In this file, I supply the implements of sigmod function and its derivative function as default active function. The implements of backpropagation is based on this [tutorial from stanford](http://ufldl.stanford.edu/wiki/index.php/Backpropagation_Algorithm)
+activation function they want into this model. In this file, I supply the implements of sigmod function and its derivative function as default activation function. The implements of backpropagation is based on this [tutorial from stanford](http://ufldl.stanford.edu/wiki/index.php/Backpropagation_Algorithm)
 
 The first method is init, as following:
 
 ```python
-def __init__(self, layer_sizes, activation_func, derivative_func, tol=1e-3, normal_random_scale = 0.5):
+def __init__(self, layer_sizes, activation_func, derivative_func, \
+    tol=1e-3, normal_random_scale = 0.5):
         '''
             init function of Fully Connected Neural Network
 
@@ -61,10 +62,12 @@ First, weight matrixs and bias are inititalized by `init` method using `np.rando
 
 ```python
 step_w_mats = [
-    np.matrix(np.zeros((self._layer_sizes[i+1], self._layer_sizes[i]))) for i in xrange(self._layer_sizes.shape[0]-1)
+    np.matrix(np.zeros((self._layer_sizes[i+1], self._layer_sizes[i]))) \ 
+    for i in xrange(self._layer_sizes.shape[0]-1)
 ]
 step_b_mats = [
-    np.matrix(np.zeros((self._layer_sizes[i+1], 1))) for i in xrange(self._layer_sizes.shape[0]-1)
+    np.matrix(np.zeros((self._layer_sizes[i+1], 1))) \
+     for i in xrange(self._layer_sizes.shape[0]-1)
 ]
 ```
 
@@ -88,7 +91,8 @@ residual_errors = [ np.multiply(self._der_func(z_vecs[-1]), a_vecs[-1]-y) ]
 step_w_mats[-1] += residual_errors[-1] * a_vecs[-2].T
 step_b_mats[-1] += residual_errors[-1]
 for i in xrange(len(self._w_mats)-1, 0, -1):
-    re = np.multiply(self._w_mats[i].T * residual_errors[0], self._der_func(np.array(z_vecs[i])))
+    re = np.multiply(self._w_mats[i].T * residual_errors[0], \ 
+    self._der_func(np.array(z_vecs[i])))
     residual_errors.insert(0, re)
     step_w_mats[i-1] += residual_errors[0] * a_vecs[i-1].T
     step_b_mats[i-1] += residual_errors[0]
@@ -100,7 +104,8 @@ The follwing code updates the weight matrix and bias vectors, and decided whethe
 
 ```python
 for i in xrange(len(self._w_mats)):
-    self._w_mats[i] -= alpha*( step_w_mats[i]/X.shape[1] + lamb*self._w_mats[i] )
+    self._w_mats[i] -= alpha*( step_w_mats[i]/X.shape[1] \ 
+    + lamb*self._w_mats[i] )
     self._b_mats[i] -= alpha*( step_b_mats[i]/X.shape[1] )
 #check whether to stop the iteration
 if np.abs(last_loss-tmp_loss) <= self._tol:
@@ -116,4 +121,73 @@ Experiments code is in this file. Experiments in different `scale`, `tol`, `lear
 
 ## Result Figure
 
+In the experiments, I try to find out relations between `scale`, `torlerance`, `learning rate`, `facotrs of regularizations`, `structures`  and accurency. The following figures are the results of these experiments.
+
+#### learning rate
+
+In learning rate experiments, tolerance is 0.01, scale is 0.4 and the facotr of regularization item is 0.
+
+<img src='figures/IRIS_learning_rate.png', style='float:left; width:50%' />
+<img src='figures/WINE_learning_rate.png', style='float:right; width:50%' />
+
+Observing above figures, it can be seen that with the increasement of learning rate, accurency goes up, too.
+That maybe because when the learing rate is small, the gradient descent reached a local optimization. When learning
+rate becomed bigger, the iterations jump out of the local optimizations and reached the global optimization.
+
+#### tolerance
+
+In tolerance experiments, learning rate is 0.9, scale is 0.4 and the facotr of regularization item is 0.
+
+<img src='figures/IRIS_tol.png', style='float:left; width:50%' />
+<img src='figures/WINE_tol.png', style='float:right; width:50%' />
+
+Accurencies in two figures both go down with the increasement of tolerance, which means that a result with big tolerance
+may not be a best result. In the another hand, though a small tolerance can lead to a better result, it will make the convergence too time-consuming.
+
+#### scale
+
+In scale experiments, learning rate is 0.9, tolerance is 0.01 and the facotr of regularization item is 0.
+
+<img src='figures/IRIS_scale.png', style='float:left; width:50%' />
+<img src='figures/WINE_scale.png', style='float:right; width:50%' />
+
+A bigger scale leads to a better result in both figures. I guess that's because when the initializations are too close
+to zero, iterations will goto a local optimization.
+
+#### factors of regularization items
+
+In scale experiments, learning rate is 0.9, tolerance is 0.01 and scale is 0.4 .
+
+<img src='figures/IRIS_lambdas.png', style='float:left; width:50%' />
+<img src='figures/WINE_lambdas.png', style='float:right; width:50%' />
+
+Regularization items are used to prevent overfitting. Due to the data sizes of IRIS and WINE are both small, so their is
+little chance to overfit when training. So a higher factor leads to a worse accurency.
+
+#### hidden layer sizes
+
+In this part of experiments, learning rate is 0.9, tolerance is 0.01, scale is 0.4 and factor of regularization item is 0.
+There is only one hidden layers. Note the size of attributes as `A`, the size of the hidden layers begins at `A-2` and ends at `A+5`.
+
+<img src='figures/IRIS_hidden_layers_size.png', style='float:left; width:50%' />
+<img src='figures/WINE_hidden_layers_size.png', style='float:right; width:50%' />
+
+The size of IRIS attributes is 4. When the hidden layer size is 2, the accurency of left figure is around 0.3, which is pretty low. With the increasement of size, the accurency goes up sharply. For WINE dataset, the accurency is always high.
+It's obvious that a too small hidden layer size can not meet the requirements, but it do not need to be too large.
+
+#### numbers of hidden layers
+
+In this part of experiments, learning rate is 0.9, tolerance is 0.01, scale is 0.4 and factor of regularization item is 0.
+There is only one hidden layers. Note the size of attributes as `A`, the sizes of the hidden layers are `A+2`. The numbers of hidden layers begins at 1 and ends at 3
+
+<img src='figures/IRIS_hidden_layer_number.png', style='float:left; width:50%' />
+<img src='figures/WINE_hidden_layer_number.png', style='float:right; width:50%' />
+
+Above results show that the accurencies go down with the increasement of hidden layers' number. So it is not true that the more hidden layers can lead to better results. 
+
 ## Improvements
+
+1. In this experiment, the activation function is sigmod function. More activation functions can be tested.
+2. The attributes of IRIS and WINE are small. More datasets with high dimensions can be introduced into experiments.
+3. The accurencies are calculated with the test data which is the same part of the whole dataset. K-folder cross validation can be processed.
+

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <title>Assignment 2 Report</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 26px; line-height: 22px; word-wrap: break-word; } #code-csp-warning { position: fixed; top: 0; right: 0; color: white; margin: 16px; text-align: center; font-size: 12px; font-family: sans-serif; background-color:#444444; cursor: pointer; padding: 6px; box-shadow: 1px 1px 1px rgba(0,0,0,.25); } #code-csp-warning:hover { text-decoration: none; background-color:#007acc; box-shadow: 2px 2px 2px rgba(0,0,0,.25); } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-light.showEditorSelection .code-line .code-line:hover:before { border-left: none; } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-dark.showEditorSelection .code-line .code-line:hover:before { border-left: none; } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } .vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before { border-left: none; } img { max-width: 100%; max-height: 100%; } a { text-decoration: none; } a:hover { text-decoration: underline; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left-width: 5px; border-left-style: solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } pre:not(.hljs), pre.hljs code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ pre code { color: var(--vscode-editor-foreground); } .vscode-light pre:not(.hljs), .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark pre:not(.hljs), .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast pre:not(.hljs), .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } 
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="assignment-2-report">Assignment 2 Report</h1>
+<h3 id="from-1831604-zhang-yinjia">from 1831604 Zhang Yinjia</h3>
+<h2 id="dataset-description">Dataset Description</h2>
+<p>The two datasets selected from UCI  are <a href="http://archive.ics.uci.edu/ml/datasets/Iris">IRIS</a> and <a href="https://archive.ics.uci.edu/ml/datasets/Wine">WINE</a>.</p>
+<p>The <a href="http://archive.ics.uci.edu/ml/datasets/Iris">IRIS</a> is a classic dataset with <code>4</code> numeric attribute,
+,containing 3 classes of 50 instances each, where each class refers to a type of iris plant.</p>
+<p>The <a href="https://archive.ics.uci.edu/ml/datasets/Wine">WINE</a> are the results of a chemical analysis of wines grown in the same region in Italy but derived from three different cultivars. The analysis determined the quantities of 13 constituents found in each of the three types of wines. All attributes are continuous.</p>
+<h2 id="data-preprocessing">Data Preprocessing</h2>
+<h3 id="step1-max-min-scale">Step1. Max-Min Scale</h3>
+<p>For both categorical and numeric data, Max-Min Scale is used to restrict values into [0, 1]. The reason is that the ranges of
+numeric data are much different from each other, in this case the initial value of weight matrix <code>W</code> and bias <code>b</code> may inflect the result of
+logistic regression.</p>
+<h2 id="modules-of-source-code">Modules of Source Code</h2>
+<p>There are three source code files in soucecode folder. They are <code>dataprocess.py</code>, <code>full_connected_nn.py</code> and <code>experiments.py</code>.</p>
+<h3 id="dataprocesspy"><a href="http://dataprocess.py">dataprocess.py</a></h3>
+<p>The code in this file is used to read data from <code>iris.data</code> and <code>wine.data</code> in dataset folder and dump these data into json format based on their labels.</p>
+<h3 id="fullconnectednnpy">full_connected_nn.py</h3>
+<p>The code in this file implements a fully connetected neural network. Users can pass the structure of neural network and any
+activation function they want into this model. In this file, I supply the implements of sigmod function and its derivative function as default activation function. The implements of backpropagation is based on this <a href="http://ufldl.stanford.edu/wiki/index.php/Backpropagation_Algorithm">tutorial from stanford</a></p>
+<p>The first method is init, as following:</p>
+<pre><code class="language-python"><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, layer_sizes, activation_func, derivative_func, tol=<span class="hljs-number">1e-3</span>, normal_random_scale = <span class="hljs-number">0.5</span>)</span>:</span>
+        <span class="hljs-string">'''
+            init function of Fully Connected Neural Network
+
+            @layer_sizes: np.ndarray, shape=(n,) where n&gt;=2
+            @active_func: callable, activation function
+            @derivative_func: callable, derivative function
+            @tol: float, tolerance to stop the gradient descent  
+        '''</span>
+        self._layer_sizes = layer_sizes
+        self._w_mats = [] 
+        self._b_mats = []
+        self._act_func = activation_func
+        self._der_func = derivative_func
+        self._tol = tol
+        self._fitted = <span class="hljs-keyword">False</span>
+        self._normal_random_scale = normal_random_scale
+</div></code></pre>
+<p>The <code>layer_sizes</code> is the structure of NN, <code>active_func</code> and <code>derivative_func</code> are active function and its derivative function. <code>tol</code>is the tolerance which is the stop critirion of iterations in backpropagation. <code>normal_random_scal</code> is the value of scale in <code>Normal Distribution</code> which is used to init the weight matrix. <code>self._w_mats</code> is used to store the weight matrixs and <code>self._b_mats</code> for bias.</p>
+<p>The training method is <code>fit(self,X,Y, alpha, lamb)</code>, where <code>X</code> is attributes of training data and <code>Y</code> is label vectors of <code>X</code>. <code>alpha</code> is the learning rate and <code>lamb</code> is the factors of regularization items.</p>
+<p>First, weight matrixs and bias are inititalized by <code>init</code> method using <code>np.random.normal</code> function. Then the code steps into backpropagation part.</p>
+<pre><code class="language-python"><div>step_w_mats = [
+    np.matrix(np.zeros((self._layer_sizes[i+<span class="hljs-number">1</span>], self._layer_sizes[i]))) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(self._layer_sizes.shape[<span class="hljs-number">0</span>]<span class="hljs-number">-1</span>)
+]
+step_b_mats = [
+    np.matrix(np.zeros((self._layer_sizes[i+<span class="hljs-number">1</span>], <span class="hljs-number">1</span>))) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(self._layer_sizes.shape[<span class="hljs-number">0</span>]<span class="hljs-number">-1</span>)
+]
+</div></code></pre>
+<p><code>step_w_mats</code> and <code>tep_b_mats</code> are used to store the step of gradient descents. They are both initialized to zero. Then for each records <code>x</code> in <code>X</code>, backpropagation is processed. The forward part is shown as follows:</p>
+<pre><code class="language-python"><div>z_vecs = [x]
+a_vecs = [x]
+<span class="hljs-comment">#forward</span>
+<span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> xrange(self._layer_sizes.shape[<span class="hljs-number">0</span>]<span class="hljs-number">-1</span>):
+    z_vecs.append(self._w_mats[l]*a_vecs[l]+self._b_mats[l])
+    a_vecs.append(self._act_func(np.array(z_vecs[l+<span class="hljs-number">1</span>])))
+</div></code></pre>
+<p><code>z_vecs</code> and <code>a_vecs</code> stores the inputs and activate values of nerons in layers. The loop above is the forward propagation to evaluate <code>z_vecs</code> and <code>a_vecs</code>.</p>
+<pre><code class="language-python"><div><span class="hljs-comment">#loss</span>
+tmp_loss += ((y-a_vecs[<span class="hljs-number">-1</span>]).T*(y-a_vecs[<span class="hljs-number">-1</span>])/<span class="hljs-number">2</span>)[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]
+<span class="hljs-comment">#backward</span>
+residual_errors = [ np.multiply(self._der_func(z_vecs[<span class="hljs-number">-1</span>]), a_vecs[<span class="hljs-number">-1</span>]-y) ]
+step_w_mats[<span class="hljs-number">-1</span>] += residual_errors[<span class="hljs-number">-1</span>] * a_vecs[<span class="hljs-number">-2</span>].T
+step_b_mats[<span class="hljs-number">-1</span>] += residual_errors[<span class="hljs-number">-1</span>]
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(len(self._w_mats)<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>):
+    re = np.multiply(self._w_mats[i].T * residual_errors[<span class="hljs-number">0</span>], self._der_func(np.array(z_vecs[i])))
+    residual_errors.insert(<span class="hljs-number">0</span>, re)
+    step_w_mats[i<span class="hljs-number">-1</span>] += residual_errors[<span class="hljs-number">0</span>] * a_vecs[i<span class="hljs-number">-1</span>].T
+    step_b_mats[i<span class="hljs-number">-1</span>] += residual_errors[<span class="hljs-number">0</span>]
+</div></code></pre>
+<p>Above code is the logic of backward propagation. Here residual error matrixs are calculated based on that of the next layer. Details of algorithm and provement can be found in <a href="http://ufldl.stanford.edu/wiki/index.php/Backpropagation_Algorithm">http://ufldl.stanford.edu/wiki/index.php/Backpropagation_Algorithm</a>.</p>
+<p>The follwing code updates the weight matrix and bias vectors, and decided whether to stop the iterations.</p>
+<pre><code class="language-python"><div><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(len(self._w_mats)):
+    self._w_mats[i] -= alpha*( step_w_mats[i]/X.shape[<span class="hljs-number">1</span>] + lamb*self._w_mats[i] )
+    self._b_mats[i] -= alpha*( step_b_mats[i]/X.shape[<span class="hljs-number">1</span>] )
+<span class="hljs-comment">#check whether to stop the iteration</span>
+<span class="hljs-keyword">if</span> np.abs(last_loss-tmp_loss) &lt;= self._tol:
+    <span class="hljs-keyword">break</span>
+<span class="hljs-keyword">else</span>:
+    last_loss = tmp_loss
+</div></code></pre>
+<p>And the <code>predict(self, X)</code> method is for predictions. Its logic is as same as that of forward propagation in <code>fit</code> method.</p>
+<h3 id="experimentspy"><a href="http://experiments.py">experiments.py</a></h3>
+<p>Experiments code is in this file. Experiments in different <code>scale</code>, <code>tol</code>, <code>learning_rate</code> and <code>lambda</code>, which is the factor of regularization items.</p>
+<h2 id="result-figure">Result Figure</h2>
+<p>In the experiments, I try to find out relations between <code>scale</code>, <code>torlerance</code>, <code>learning rate</code>, <code>facotrs of regularizations</code>, <code>structures</code>  and accurency. The following figures are the results of these experiments.</p>
+<h4 id="learning-rate">learning rate</h4>
+<p>In learning rate experiments, tolerance is 0.01, scale is 0.4 and the facotr of regularization item is 0.</p>
+<p><img src='figures/IRIS_learning_rate.png', style='float:left; width:50%' />
+<img src='figures/WINE_learning_rate.png', style='float:right; width:50%' /></p>
+<p>Observing above figures, it can be seen that with the increasement of learning rate, accurency goes up, too.
+That maybe because when the learing rate is small, the gradient descent reached a local optimization. When learning
+rate becomed bigger, the iterations jump out of the local optimizations and reached the global optimization.</p>
+<h4 id="tolerance">tolerance</h4>
+<p>In tolerance experiments, learning rate is 0.9, scale is 0.4 and the facotr of regularization item is 0.</p>
+<p><img src='figures/IRIS_tol.png', style='float:left; width:50%' />
+<img src='figures/WINE_tol.png', style='float:right; width:50%' /></p>
+<p>Accurencies in two figures both go down with the increasement of tolerance, which means that a result with big tolerance
+may not be a best result. In the another hand, though a small tolerance can lead to a better result, it will make the convergence too time-consuming.</p>
+<h4 id="scale">scale</h4>
+<p>In scale experiments, learning rate is 0.9, tolerance is 0.01 and the facotr of regularization item is 0.</p>
+<p><img src='figures/IRIS_scale.png', style='float:left; width:50%' />
+<img src='figures/WINE_scale.png', style='float:right; width:50%' /></p>
+<p>A bigger scale leads to a better result in both figures. I guess that's because when the initializations are too close
+to zero, iterations will goto a local optimization.</p>
+<h4 id="factors-of-regularization-items">factors of regularization items</h4>
+<p>In scale experiments, learning rate is 0.9, tolerance is 0.01 and scale is 0.4 .</p>
+<p><img src='figures/IRIS_lambdas.png', style='float:left; width:50%' />
+<img src='figures/WINE_lambdas.png', style='float:right; width:50%' /></p>
+<p>Regularization items are used to prevent overfitting. Due to the data sizes of IRIS and WINE are both small, so their is
+little chance to overfit when training. So a higher factor leads to a worse accurency.</p>
+<h4 id="hidden-layer-sizes">hidden layer sizes</h4>
+<p>In this part of experiments, learning rate is 0.9, tolerance is 0.01, scale is 0.4 and factor of regularization item is 0.
+There is only one hidden layers. Note the size of attributes as <code>A</code>, the size of the hidden layers begins at <code>A-2</code> and ends at <code>A+5</code>.</p>
+<p><img src='figures/IRIS_hidden_layer_size.png', style='float:left; width:50%' />
+<img src='figures/WINE_hidden_layer_size.png', style='float:right; width:50%' /></p>
+<p>The size of IRIS attributes is 4. When the hidden layer size is 2, the accurency of left figure is around 0.3, which is pretty low. With the increasement of size, the accurency goes up sharply. For WINE dataset, the accurency is always high.
+It's obvious that a too small hidden layer size can not meet the requirements, but it do not need to be too large.</p>
+<h4 id="numbers-of-hidden-layers">numbers of hidden layers</h4>
+<p>In this part of experiments, learning rate is 0.9, tolerance is 0.01, scale is 0.4 and factor of regularization item is 0.
+There is only one hidden layers. Note the size of attributes as <code>A</code>, the sizes of the hidden layers are <code>A+2</code>. The numbers of hidden layers begins at 1 and ends at 3</p>
+<p><img src='figures/IRIS_hidden_layers_number.png', style='float:left; width:50%' />
+<img src='figures/WINE_hidden_layers_number.png', style='float:right; width:50%' /></p>
+<p>Above results show that the accurencies go down with the increasement of hidden layers' number. So it is not true that the more hidden layers can lead to better results.</p>
+<h2 id="improvements">Improvements</h2>
+<ol>
+<li>In this experiment, the activation function is sigmod function. More activation functions can be tested.</li>
+<li>The attributes of IRIS and WINE are small. More datasets with high dimensions can be introduced into experiments.</li>
+<li>The accurencies are calculated with the test data which is the same part of the whole dataset. K-folder cross validation can be processed.</li>
+</ol>
+
+    </body>
+    </html>

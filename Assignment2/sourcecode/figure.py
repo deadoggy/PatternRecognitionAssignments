@@ -80,4 +80,5 @@ for dsn in datasets:
     axe.set_xlabel('hidden layers\' number')
     axe.set_ylabel('accurency')
     plt.savefig(folder+'%s_hidden_layers_number.png'%dsn.upper())
+    plt.cla()
     
