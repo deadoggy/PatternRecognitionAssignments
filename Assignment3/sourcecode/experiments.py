@@ -9,7 +9,8 @@ import sys
 import json
 import numpy as np
 
-dataset = "wine"
+
+dataset = "iris"
 with open("%s/../dataset/%s.json"%(sys.path[0], dataset), "r") as dataset_in:
     data_json = json.load(dataset_in)
 
@@ -79,22 +80,22 @@ for k in xrange(2, 10):
 with open("%s/../kmeans_%s_out.json"%(sys.path[0], dataset), "w") as kmeans_out:
     json.dump(kmeans_json, kmeans_out)
 
-print "Hac"
-print "============================"
-linkage_names = ['Avg','Cpl','Sgl']
-for lidx, linkage in enumerate([AverageLinkage, CompleteLinkage, SingleLinkage]):
-    linkage_name = linkage_names[lidx]
-    print "linkage=%s"%linkage_name
-    print "----------------"
-    for k in xrange(2, 10):
-        print "k=%d"%k
-        hac_predict = Hierarchical().fit(X, k, linkage)
-        mse = Mse(X, hac_predict, k)
-        sc = silhouette_score(X, hac_predict)
-        ari = adjusted_rand_score(y_truth, hac_predict)
-        hac_json[linkage_name]["sc"].append(sc)
-        hac_json[linkage_name]["mse"].append(mse)
-        hac_json[linkage_name]["ari"].append(ari)
+# print "Hac"
+# print "============================"
+# linkage_names = ['Avg','Cpl','Sgl']
+# for lidx, linkage in enumerate([AverageLinkage, CompleteLinkage, SingleLinkage]):
+#     linkage_name = linkage_names[lidx]
+#     print "linkage=%s"%linkage_name
+#     print "----------------"
+#     for k in xrange(2, 10):
+#         print "k=%d"%k
+#         hac_predict = Hierarchical().fit(X, k, linkage)
+#         mse = Mse(X, hac_predict, k)
+#         sc = silhouette_score(X, hac_predict)
+#         ari = adjusted_rand_score(y_truth, hac_predict)
+#         hac_json[linkage_name]["sc"].append(sc)
+#         hac_json[linkage_name]["mse"].append(mse)
+#         hac_json[linkage_name]["ari"].append(ari)
 
-with open("%s/../hac_%s_out.json"%(sys.path[0], dataset), "w") as hac_out:
-    json.dump(hac_json, hac_out)
+# with open("%s/../hac_%s_out.json"%(sys.path[0], dataset), "w") as hac_out:
+#     json.dump(hac_json, hac_out)
