@@ -31,8 +31,8 @@ with open("%s/../hac_%s_out.json"%(sys.path[0], dataset), "r") as hac_in:
 linkages = ["Sgl", "Cpl", "Avg"]
 linkage_name = ["Single","Complete","Average"]
 fig, axes = plt.subplots(nrows=3, ncols=1)
-fig.set_figheight(8)
-fig.set_figwidth(12)
+fig.set_figheight(9)
+fig.set_figwidth(7)
 for row in xrange(3):
     for col in xrange(1):
         ax = axes[row]

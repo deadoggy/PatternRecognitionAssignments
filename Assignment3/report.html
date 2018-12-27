@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <title>Assignment 3 Report</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-rc.1/dist/katex.min.css" integrity="sha384-D+9gmBxUQogRLqvARvNLmA9hS2x//eK1FhVb9PiU86gmcrBrJAQT8okdJ4LMp2uv" crossorigin="anonymous">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 26px; line-height: 22px; word-wrap: break-word; } #code-csp-warning { position: fixed; top: 0; right: 0; color: white; margin: 16px; text-align: center; font-size: 12px; font-family: sans-serif; background-color:#444444; cursor: pointer; padding: 6px; box-shadow: 1px 1px 1px rgba(0,0,0,.25); } #code-csp-warning:hover { text-decoration: none; background-color:#007acc; box-shadow: 2px 2px 2px rgba(0,0,0,.25); } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-light.showEditorSelection .code-line .code-line:hover:before { border-left: none; } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-dark.showEditorSelection .code-line .code-line:hover:before { border-left: none; } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } .vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before { border-left: none; } img { max-width: 100%; max-height: 100%; } a { text-decoration: none; } a:hover { text-decoration: underline; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left-width: 5px; border-left-style: solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } pre:not(.hljs), pre.hljs code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ pre code { color: var(--vscode-editor-foreground); } .vscode-light pre:not(.hljs), .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark pre:not(.hljs), .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast pre:not(.hljs), .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } 
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="assignment-3-report">Assignment 3 Report</h1>
+<h3 id="from-1831604-zhang-yinjia">from 1831604 Zhang Yinjia</h3>
+<h2 id="dataset-description">Dataset Description</h2>
+<p>The two datasets selected from UCI  are <a href="http://archive.ics.uci.edu/ml/datasets/Iris">IRIS</a> and <a href="https://archive.ics.uci.edu/ml/datasets/Wine">WINE</a>.</p>
+<p>The <a href="http://archive.ics.uci.edu/ml/datasets/Iris">IRIS</a> is a classic dataset with <code>4</code> numeric attribute,
+,containing 3 classes of 50 instances each, where each class refers to a type of iris plant.</p>
+<p>The <a href="https://archive.ics.uci.edu/ml/datasets/Wine">WINE</a> are the results of a chemical analysis of wines grown in the same region in Italy but derived from three different cultivars. The analysis determined the quantities of 13 constituents found in each of the three types of wines. All attributes are continuous.</p>
+<h2 id="modules-of-source-code">Modules of Source Code</h2>
+<p>there are 4 files in <code>sourcecode</code> folder, they are <code>hac.py</code>, <code>kmeans.py</code>, <code>experiments.py</code> and <code>figure.py</code></p>
+<h3 id="hacpy"><a href="http://hac.py">hac.py</a></h3>
+<p>In <code>hac.py</code>, there is code which implementing the <code>Hierarchical Clustering</code> algorithm. There are two classes in
+this file. The first one is <code>Cluster</code>. It is used to represent a cluster in the algorithm. It stores object members
+and their indexes in the dataset. And another class is <code>Hierarchical</code>. It supplies a <code>fit</code> method to process the
+clustering algotithm. Its code is as follows:</p>
+<pre><code class="language-python"><div>        <span class="hljs-keyword">if</span> type(X) != np.ndarray:
+            <span class="hljs-keyword">raise</span> Exception(<span class="hljs-string">'X not a numpy.ndarray'</span>)
+
+        clus = [ Cluster((X[i],i)) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(X.shape[<span class="hljs-number">0</span>])]
+        adj_mat = np.matrix(np.zeros((X.shape[<span class="hljs-number">0</span>], X.shape[<span class="hljs-number">0</span>])))
+
+        <span class="hljs-comment">#initialize adjacent matrix</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(len(clus)):
+            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> xrange(i, len(clus)):
+                dist = linkage(clus[i], clus[j]) <span class="hljs-keyword">if</span> i!=j <span class="hljs-keyword">else</span> float(<span class="hljs-string">'inf'</span>)
+                adj_mat[i,j] = adj_mat[j,i] = dist
+        
+        <span class="hljs-comment">#run merge</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:
+            min_dist = adj_mat.min()
+            min_loc = np.where(adj_mat == min_dist)
+            x = min_loc[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]
+            y = min_loc[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]
+            clus_1 = clus[x]
+            clus_2 = clus[y]
+            clus_1.merge(clus_2)
+            clus.remove(clus_2)
+            <span class="hljs-comment"># delete min_loc[1]-th row and col</span>
+            adj_mat = np.delete(adj_mat, y, axis=<span class="hljs-number">0</span>)
+            adj_mat = np.delete(adj_mat, y, axis=<span class="hljs-number">1</span>)
+
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(len(clus)):
+                dist = linkage(clus[i], clus_1) <span class="hljs-keyword">if</span> i!= x <span class="hljs-keyword">else</span> float(<span class="hljs-string">'inf'</span>)
+                adj_mat[i, x] = dist
+                adj_mat[x, i] = dist
+            <span class="hljs-keyword">if</span> len(clus) == k:
+                <span class="hljs-keyword">break</span>
+        
+        <span class="hljs-comment">#return label</span>
+        y_predict = np.array([<span class="hljs-number">-1</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(X.shape[<span class="hljs-number">0</span>])])
+        <span class="hljs-keyword">for</span> i, c <span class="hljs-keyword">in</span> enumerate(clus):
+            <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> c.mem_idx:
+                y_predict[l] = i
+        <span class="hljs-keyword">return</span> y_predict
+</div></code></pre>
+<p>After checking the data type of <code>X</code>, I initialized the adjacent matrix first. If <code>i==j</code>, I give infinity to
+the position. Although it should be <code>0</code>, doing so is convenient for finding minimum distance in adjacent matrix later.
+Then in the <code>while</code> loop, I firstly find the minimum distance using the <code>min()</code> function supplied by <code>numpy</code>, and using
+<code>numpy.where</code> to find the corresponding clusters. Then, the two clusters are merged into one and the columns and row
+of one cluster is removed from adjacent matrix. After that, the new distance between the new cluster and other clusters
+are calculated and the matrix is updated. If the number of leaving clusters is equal to <code>k</code>, the loop will end and the
+method return the result; If not, the loop will go on.
+Then, I supply three kinds of linkage in this file. They are <code>Single Linkage</code>, <code>Complete Linkage</code> and <code>Average Linkage</code>.</p>
+<h3 id="kmeanspy"><a href="http://kmeans.py">kmeans.py</a></h3>
+<p>In this file, I supply the implementation of <code>K-Means</code> algorithm. There is only on class named <code>KMeans</code> in this file.
+The code is as follows:</p>
+<pre><code class="language-python"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KMeans</span>:</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fit</span><span class="hljs-params">(self, X, k)</span>:</span>
+        <span class="hljs-string">'''
+            KMeans on X, dividing into k clusters
+
+            @X: np.ndarray; shape = [n_samples, n_features]
+            @k: int
+
+            #return: np.ndarray, shape = [n_samples,]
+        '''</span>
+        centers = random.sample(X,k)
+        y_predict = np.array([<span class="hljs-number">-1</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(X.shape[<span class="hljs-number">0</span>])])
+
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:
+            cls_mean = np.array([ [<span class="hljs-number">0.</span> <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> xrange(X.shape[<span class="hljs-number">1</span>])] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(k)])
+            cls_count = np.array([<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> xrange(k)])
+            <span class="hljs-keyword">for</span> i, v <span class="hljs-keyword">in</span> enumerate(X):
+                <span class="hljs-comment"># find the nearest center</span>
+                nrst_ctr = <span class="hljs-number">0</span>
+                <span class="hljs-keyword">for</span> j, c <span class="hljs-keyword">in</span> enumerate(centers):
+                    <span class="hljs-keyword">if</span> np.sum(np.sqrt((v-c)**<span class="hljs-number">2</span>)) &lt; np.sum(np.sqrt((v-centers[nrst_ctr])**<span class="hljs-number">2</span>)):
+                        nrst_ctr = j
+                <span class="hljs-comment"># update y_predict, cls_mean and cls_count</span>
+                y_predict[i] = nrst_ctr
+                cls_mean[nrst_ctr] += v
+                cls_count[nrst_ctr] += <span class="hljs-number">1</span>
+            <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> xrange(X.shape[<span class="hljs-number">1</span>]):
+                cls_mean[:, d] /= cls_count
+            
+            <span class="hljs-keyword">if</span> np.sum(centers==cls_mean) == cls_mean.shape[<span class="hljs-number">0</span>] * cls_mean.shape[<span class="hljs-number">1</span>]:
+                <span class="hljs-keyword">break</span>
+            <span class="hljs-keyword">else</span>:
+                centers = cls_mean
+
+        <span class="hljs-keyword">return</span> y_predict
+</div></code></pre>
+<p>The only method of <code>KMeans</code> is <code>fit</code>. At first, I sample <code>k</code> data points from dataset as initial centers randomly.
+Then the iteration begins. <code>cls_mean</code> is used to store the mean of clusters in this iteration. And <code>cls_count</code> records
+the number of data points in each cluster. After traversing all nodes in dataset, means are calculated by <code>cls_mean/cls_count</code>.
+If all centers are steady, which means <code>centers==cls_means</code>, the iteration will be broken, else the loop will go on.</p>
+<h3 id="experimentspy"><a href="http://experiments.py">experiments.py</a></h3>
+<p>This file supplies the experiments code. First it reads data from json file. Then, for <code>KMeans</code>, I set <code>k</code> from <code>2</code> to <code>9</code> and
+run the algorithm. Then indexes are calculated. For <code>Hierarchical Clustering</code>, <code>k</code> is set from <code>2</code> to <code>9</code>, too. Then with
+three kinds of linkage, the algorithm are processed. All results are ouputted to json files.</p>
+<h3 id="figurepy"><a href="http://figure.py">figure.py</a></h3>
+<p>In this file, I draw results plots.</p>
+<h2 id="experiment-results">Experiment Results</h2>
+<h3 id="iris">IRIS:</h3>
+<p>The following figures show the <code>mse(mean squared error)</code> of clustering results. The first figre is using <code>KMeans</code> and <code>Hierarchical Clustering</code> is emploied in the second figure.</p>
+<h4 id="kmeans">Kmeans</h4>
+<p><img src="file:///home/yinjia/Documents/PatternRecognitionAssignments/Assignment3/iris_kmeans.png" alt=""></p>
+<h4 id="hierarchical">Hierarchical</h4>
+<p><img src="file:///home/yinjia/Documents/PatternRecognitionAssignments/Assignment3/iris_hac.png" alt=""></p>
+<p>As we know, the <code>IRIS</code> dataset is composed by three clusters. <code>mse</code> in <code>KMeans</code>, <code>Hierarchical with CompleteLinkage</code> and
+<code>Hierarchical with AverageLinkage</code> show knee point at <code>k=3</code>. But <code>Hierarchical with SingleLinkage</code> does not show the
+knee point at <code>k=3</code>.</p>
+<h3 id="wine">WINE</h3>
+<p>The logic of following two figures is same as those in <code>IRIS</code> dataset.</p>
+<h4 id="kmeans-1">Kmeans</h4>
+<p><img src="file:///home/yinjia/Documents/PatternRecognitionAssignments/Assignment3/iris_kmeans.png" alt=""></p>
+<h4 id="hierarchical-1">Hierarchical</h4>
+<p><img src="file:///home/yinjia/Documents/PatternRecognitionAssignments/Assignment3/iris_hac.png" alt=""></p>
+<p>There are three clusters in the <code>WINE</code>, too. We can see <code>Hierarchical with SingleLinkage</code> does
+not show a knee point , either. Knee points appears in all the other plots, and the most obvious knee point shows in <code>Hierarchical with CompleteLinkage</code>.</p>
+<p>Based on the above results, we can see that both <code>KMeans</code> and <code>Hierarchical</code> can find the proper distribution
+of dataset. However, the result of <code>SingleLinkage</code> is not good. I think that because it take the minimun distance
+between clusters, and that may be effected by extreme data points easily.</p>
+<h2 id="improvement">Improvement</h2>
+<ol>
+<li>In <code>Hierarchical Clustering</code>, it takes <code>O(n^2)</code> to find the minimum distance in adjacent matrix. However, if <code>heap</code> is used to store the distances, the time cost can be reduced to <code>O(nlogn)</code>.</li>
+<li>In <code>KMeans</code> algorithm, the results can be effected easily by dirty data points. We can use <code>K-Medoids</code> to replace it. Instead of calculating means of clusters, the point with minimun sum with other points in a same cluster is selected as the center the of cluster. This method is not sensitive to dirty data. However, the time efficiency of this algorithm is worse than <code>KMeans</code></li>
+</ol>
+
+    </body>
+    </html>
