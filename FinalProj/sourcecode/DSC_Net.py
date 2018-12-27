@@ -8,8 +8,8 @@ from sklearn import cluster
 
 class DSC_Net:
 
-    def __init__(self, encoder, decoder, decoder_input_pl, x_dim, data_size, itr,\
-        reg_rate_1=1.0, reg_rate_2=1.0, output_path, log_path="/log/"):
+    def __init__(self, encoder, decoder, decoder_input_pl, x_dim, data_size, itr, \
+        reg_rate_1=1.0, reg_rate_2=1.0, output_path="/log/", log_path="/log/"):
         '''
             init function of a DSC_Net
 
@@ -63,4 +63,7 @@ class DSC_Net:
         self.tf_session.run(tf.global_variables_initializer())
         self.summary_wtr = tf.summary.FileWriter(self.log_path, graph=tf.get_default_graph())
 
-
+    def train(self, X, learning_rate):
+        Z_C, recover_loss,  =self.tf_session.run((self.Z_C, self.recover_loss, self.weight_loss, self.selfexp_loss, \
+        self.summary_op, self.optimizer), feed_dict={self.decoder_input_pl:self.Z_C, self.x:X, \
+        self.learning_rate:learning_rate})
