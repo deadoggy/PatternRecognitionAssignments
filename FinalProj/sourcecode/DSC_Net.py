@@ -42,21 +42,21 @@ class DSC_Net:
         self.weight_mat = tf.Variable(tf.ones([self.batch_size, self.batch_size], tf.float32)*1.0e-8)
         self.Z = tf.reshape(self.encoder, [batch_size, -1])
         self.Z_C = tf.matmul(self.weight_mat, self.Z)
-        self.selfexp_loss = tf.reduce_sum(tf.pow(tf.subtract(self.Z_C, self.Z), 2.)) * .5
-        self.Z_C = tf.reshape(self.Z_C, tf.shape(self.encoder))
-        self.decoder = decoder(self.Z_C, decoder_para)
+        
+        latent = tf.reshape(self.Z_C, tf.shape(self.encoder))
+        self.decoder = decoder(latent, decoder_para)
 
 
         # calculate loss
         self.weight_loss = tf.reduce_sum(tf.pow(self.weight_mat, 2.)) * self.reg_rate_1
-        self.recover_loss = tf.reduce_sum(tf.pow(tf.subtract(self.encoder_input_pl, self.decoder), 2.)) * self.reg_rate_2 * .5
-        
+        self.selfexp_loss = tf.reduce_sum(tf.pow(tf.subtract(self.Z_C, self.Z), 2.)) * .5 * self.reg_rate_2
+        self.recover_loss = tf.reduce_sum(tf.pow(tf.subtract(self.encoder_input_pl, self.decoder), 2.))
+        self.total_loss = self.recover_loss + self.weight_loss + self.selfexp_loss
 
         tf.summary.scalar("weight_loss", self.weight_loss)
         tf.summary.scalar("recover_loss", self.recover_loss)
         tf.summary.scalar("selfexp_loss", self.selfexp_loss)
 
-        self.total_loss = self.recover_loss + self.weight_loss + self.selfexp_loss
         self.summary_op = tf.summary.merge_all()
         
         # optimizer
@@ -73,8 +73,8 @@ class DSC_Net:
 
     def train(self, X, learning_rate, ):
         # train
-        weight_mat, recover_loss, weight_loss, selfexp_loss, summary_op, optimizer = \
-        self.tf_session.run((self.weight_mat, self.recover_loss, self.weight_loss, self.selfexp_loss, \
+        Z, weight_mat, recover_loss, weight_loss, selfexp_loss, summary_op, optimizer = \
+        self.tf_session.run((self.Z, self.weight_mat, self.recover_loss, self.weight_loss, self.selfexp_loss, \
         self.summary_op, self.optimizer), feed_dict={self.encoder_input_pl:X, \
         self.learning_rate:learning_rate})
         # record

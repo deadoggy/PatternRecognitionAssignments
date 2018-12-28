@@ -9,8 +9,11 @@ import sys
 from Conv_EncDec import gen_conv_decoder, gen_conv_encoder
 from DSC_Net import DSC_Net
 
-data_dict = sio.loadmat(sys.path[0] + '/../dataset/coil-20.mat')
-imgs = np.reshape(data_dict['img'], [len(data_dict['img']), 32, 32, 1])
+data_dict = sio.loadmat('/home/yinjia/Documents/Deep-subspace-clustering-networks/Data/COIL20.mat')
+imgs = np.reshape(data_dict['fea'], [len(data_dict['fea']), 32, 32, 1])
+
+# data_dict = sio.loadmat(sys.path[0] + '/../dataset/coil-20.mat')
+# imgs = np.reshape(data_dict['img'], [len(data_dict['img']), 32, 32, 1])
 ground_truth = data_dict['gnd']
 
 
@@ -30,11 +33,12 @@ def ConvEncDec():
     decoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1]}
 
     dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2)
-    for itr in xrange(100):
+    for itr in xrange(30):
         print itr
-        weight_mat, recover_loss, l1_loss, l2_loss = dscnet.train(imgs, lr)
-        print l1_loss
-        print l2_loss
+        weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
+        print "l1 %f"%(weight_loss/reg1)
+        print "l2 %f"%(selfexp_loss/reg2)
+        print "recon_loss %f"%recover_loss
     print 'done'
 
 
