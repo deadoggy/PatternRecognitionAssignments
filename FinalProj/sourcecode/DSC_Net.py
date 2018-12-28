@@ -10,15 +10,15 @@ from sklearn import cluster
 
 class DSC_Net:
 
-    def __init__(self, encoder, encoder_input_pl, decoder, decoder_input_pl, batch_size, x_dim,\
+    def __init__(self, encoder, encoder_para, decoder, decoder_para, batch_size, x_dim,\
         reg_rate_1=1.0, reg_rate_2=1.0):
         '''
             init function of a DSC_Net
 
-            @encoder: an tensor of encoder
-            @encoder_input_pl: placeholder, the input of encoder
-            @decoder: an tensor of decoder with symmetric structure of encoder
-            @decoder_input_pl: placeholder, the input of decoder
+            @encoder: callable, a func to generate encoder
+            @encoder_para: dict, parameter of encoder
+            @decoder: callable, a func to generate decoder
+            @decoder_para: dict, parameter of decoder
             @batch_size: int, size of input data
             @x_dim: np.ndarray
             @itr: int, iteration times
@@ -29,10 +29,7 @@ class DSC_Net:
         '''
 
         # assignment parameters
-        self.encoder = encoder
-        self.encoder_input_pl = encoder_input_pl
-        self.decoder = decoder
-        self.decoder_input_pl = decoder_input_pl 
+        self.encoder, self.encoder_input_pl = encoder(encoder_para)
         self.batch_size = batch_size
         self.reg_rate_1 = reg_rate_1
         self.reg_rate_2 = reg_rate_2
@@ -47,6 +44,9 @@ class DSC_Net:
         self.Z_C = tf.matmul(self.weight_mat, self.Z)
         self.selfexp_loss = tf.reduce_sum(tf.pow(tf.subtract(self.Z_C, self.Z), 2.)) * .5
         self.Z_C = tf.reshape(self.Z_C, tf.shape(self.encoder))
+        self.decoder = decoder(self.Z_C, decoder_para)
+
+
         # calculate loss
         self.weight_loss = tf.reduce_sum(tf.pow(self.weight_mat, 2.)) * self.reg_rate_1
         self.recover_loss = tf.reduce_sum(tf.pow(tf.subtract(self.encoder_input_pl, self.decoder), 2.)) * self.reg_rate_2 * .5
@@ -75,7 +75,7 @@ class DSC_Net:
         # train
         weight_mat, recover_loss, weight_loss, selfexp_loss, summary_op, optimizer = \
         self.tf_session.run((self.weight_mat, self.recover_loss, self.weight_loss, self.selfexp_loss, \
-        self.summary_op, self.optimizer), feed_dict={self.decoder_input_pl:self.Z_C.as_list(), self.encoder_input_pl:X, \
+        self.summary_op, self.optimizer), feed_dict={self.encoder_input_pl:X, \
         self.learning_rate:learning_rate})
         # record
         self.summary_wtr.add_summary(summary_op, self.itr)
