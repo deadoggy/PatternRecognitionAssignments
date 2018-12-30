@@ -9,6 +9,7 @@ from scipy.sparse.linalg import svds
 from sklearn.preprocessing import normalize
 import sys
 from Conv_EncDec import gen_conv_decoder, gen_conv_encoder
+from Fully_Connected_EncDec import gen_fully_connected_encoder, gen_fully_connected_decoder
 from DSC_Net import DSC_Net
 from sklearn.metrics.cluster import adjusted_rand_score
 from munkres import Munkres
@@ -16,7 +17,7 @@ from munkres import Munkres
 
 
 data_dict = sio.loadmat('/home/yinjia/Documents/Deep-subspace-clustering-networks/Data/COIL20.mat')
-imgs = np.reshape(data_dict['fea'], [len(data_dict['fea']), 32, 32, 1])
+
 ground_truth = data_dict['gnd']
 
 def threshold_weightmat(W, rate):
@@ -68,7 +69,11 @@ def generate_affinity_mat(W, k, d, alpha):
     L = .5 * (L + L.T)
     return L
 
-def ConvEncDec_Exp():
+def convdec_exp():
+    '''
+        run experiments of convolution and deconvolution coder
+    '''
+    imgs = np.reshape(data_dict['fea'], [len(data_dict['fea']), 32, 32, 1])
     img_size = [None, 32, 32, 1]
     kernal_size = [3, 3, 1, 15]
     strides = [1, 2, 2, 1]
@@ -79,10 +84,10 @@ def ConvEncDec_Exp():
     encoder = gen_conv_encoder
     decoder = gen_conv_decoder
     encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides}
-    decoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1]}
+    decoder_para = {'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1]}
 
     dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2)
-    for itr in xrange(30):
+    for itr in xrange(40):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
         print "l1 %f"%(weight_loss/reg1)
@@ -96,13 +101,48 @@ def ConvEncDec_Exp():
     # affinity_mat = post_proC(W, k, 12, 8)
 
     W = threshold_weightmat(weight_mat, threshold_rate)
-    affinity_mat = generate_affinity_mat(W, k, 12, 8)
+    affinity_mat = generate_affinity_mat(W, k, 18, 8)
 
     spec = cluster.SpectralClustering(n_clusters=k, affinity='precomputed', assign_labels='discretize')
     y_predict = spec.fit_predict(affinity_mat) + 1
     adj_rd_idx = adjusted_rand_score(ground_truth.T[0], y_predict)
     return adj_rd_idx
     
+def fully_exp():
+    '''
+        run experiments of fully connected layers
+    '''
+    imgs = np.reshape(data_dict['fea'], [len(data_dict['fea']), 32, 32, 1])
+    img_size = [None, 32, 32, 1]
+    kernal_size = [3, 3, 1, 15]
+    strides = [1, 2, 2, 1]
+    reg1 = 2.0
+    reg2 = 150.0
+    lr = 1e-3
 
-print ConvEncDec_Exp()
+    encoder = gen_fully_connected_encoder
+    decoder = gen_fully_connected_decoder
+    encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'fullyconn_outsize': 2500, 'batch_size':1440}
+    decoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1], 'fullyconn_insize': 2500}
 
+    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2)
+    for itr in xrange(50):
+        print itr
+        weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
+        print "l1 %f"%(weight_loss/reg1)
+        print "l2 %f"%(selfexp_loss/reg2)
+        print "recon_loss %f"%recover_loss
+    
+    print "spectral clustering"
+    threshold_rate = 1.
+    k = 20
+
+    W = threshold_weightmat(weight_mat, threshold_rate)
+    affinity_mat = generate_affinity_mat(W, k, 18, 8)
+
+    spec = cluster.SpectralClustering(n_clusters=k, affinity='precomputed', assign_labels='discretize')
+    y_predict = spec.fit_predict(affinity_mat) + 1
+    adj_rd_idx = adjusted_rand_score(ground_truth.T[0], y_predict)
+    return adj_rd_idx
+
+print fully_exp()
