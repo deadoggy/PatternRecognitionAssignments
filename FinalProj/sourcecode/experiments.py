@@ -87,7 +87,7 @@ def convencdec_exp():
     encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides}
     decoder_para = {'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1]}
 
-    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2)
+    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/single_layer/')
     for itr in xrange(40):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
@@ -107,6 +107,7 @@ def convencdec_exp():
     spec = cluster.SpectralClustering(n_clusters=k, affinity='precomputed', assign_labels='discretize')
     y_predict = spec.fit_predict(affinity_mat) + 1
     adj_rd_idx = adjusted_rand_score(ground_truth.T[0], y_predict)
+    dscnet.tf_session.close()
     return adj_rd_idx
     
 def fully_exp():
@@ -126,7 +127,7 @@ def fully_exp():
     encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'fullyconn_outsize': 2500, 'batch_size':1440}
     decoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1], 'fullyconn_insize': 2500}
 
-    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2)
+    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/conv_fully/')
     for itr in xrange(50):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
@@ -144,6 +145,7 @@ def fully_exp():
     spec = cluster.SpectralClustering(n_clusters=k, affinity='precomputed', assign_labels='discretize')
     y_predict = spec.fit_predict(affinity_mat) + 1
     adj_rd_idx = adjusted_rand_score(ground_truth.T[0], y_predict)
+    dscnet.tf_session.close()
     return adj_rd_idx
 
 def nl_convencdec_exp():
@@ -163,7 +165,7 @@ def nl_convencdec_exp():
     encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides}
     decoder_para = {'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1]}
 
-    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2)
+    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/n_layer/')
     for itr in xrange(40):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
@@ -183,7 +185,18 @@ def nl_convencdec_exp():
     spec = cluster.SpectralClustering(n_clusters=k, affinity='precomputed', assign_labels='discretize')
     y_predict = spec.fit_predict(affinity_mat) + 1
     adj_rd_idx = adjusted_rand_score(ground_truth.T[0], y_predict)
+    dscnet.tf_session.close()
     return adj_rd_idx
 
 
-print nl_convencdec_exp()
+print 'Single Layer Convolutional'
+print '==============================================================='
+print convencdec_exp()
+
+# print 'Two Layer Convolutional'
+# print '==============================================================='
+# print nl_convencdec_exp()
+
+# print 'Single Layer Convolutional + Fully Connected Layer'
+# print '==============================================================='
+# print fully_exp()

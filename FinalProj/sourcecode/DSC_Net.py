@@ -11,7 +11,7 @@ from sklearn import cluster
 class DSC_Net:
 
     def __init__(self, encoder, encoder_para, decoder, decoder_para, batch_size, x_dim,\
-        reg_rate_1=1.0, reg_rate_2=1.0):
+        reg_rate_1=1.0, reg_rate_2=1.0, log_path = '/log/'):
         '''
             init function of a DSC_Net
 
@@ -36,7 +36,7 @@ class DSC_Net:
         self.learning_rate = tf.placeholder(tf.float32, [])
         self.itr = 0
         self.x_dim = x_dim
-        self.log_path = '/log/'
+        self.log_path = log_path
         
         # self expressiveness layer
         self.weight_mat = tf.Variable(tf.ones([self.batch_size, self.batch_size], tf.float32)*1.0e-8)
@@ -56,6 +56,7 @@ class DSC_Net:
         tf.summary.scalar("weight_loss", self.weight_loss)
         tf.summary.scalar("recover_loss", self.recover_loss)
         tf.summary.scalar("selfexp_loss", self.selfexp_loss)
+        tf.summary.scalar("total_loss", self.total_loss)
 
         self.summary_op = tf.summary.merge_all()
         
