@@ -87,7 +87,7 @@ def convencdec_exp():
     encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides}
     decoder_para = {'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1]}
 
-    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/single_layer/')
+    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/pr_final/single_layer/')
     for itr in xrange(40):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
@@ -127,7 +127,7 @@ def fully_exp():
     encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'fullyconn_outsize': 2500, 'batch_size':1440}
     decoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1], 'fullyconn_insize': 2500}
 
-    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/conv_fully/')
+    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/pr_final/conv_fully/')
     for itr in xrange(50):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
@@ -165,7 +165,7 @@ def nl_convencdec_exp():
     encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides}
     decoder_para = {'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1]}
 
-    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/n_layer/')
+    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/pr_final/n_layer/')
     for itr in xrange(40):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
