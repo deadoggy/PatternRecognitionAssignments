@@ -41,9 +41,9 @@ The input $x_i$ is mapped to $z_i$ through an encoder, and then reconstructed as
 
 The output of encoder $Z_{\Theta_{e}}$ multiplies the coefficient matrix $\Theta_{S}$ by goes through the self-expressiveness layer. And decoder takes $Z_{\Theta_{e}}\Theta_{S}$ as input. To encode self-expressiveness, the author introduced a new loss function defined as:
 
-$L(\Theta C)=\frac{1}{2}\parallel X-\hat{X}_{\Theta}\parallel^2_{F}+\lambda_{1}\parallel C\parallel_{p} + \frac{\lambda_2}{2}\parallel Z_{\Sigma_e}-Z_{\Sigma_e}C\parallel^2_F \ s.t.\ diag(C)=0$
+$L(\Theta, C)=\frac{1}{2}\parallel X-\hat{X}_{\Theta}\parallel^2_{F}+\lambda_{1}\parallel C\parallel_{p} + \frac{\lambda_2}{2}\parallel Z_{\Sigma_e}-Z_{\Sigma_e}C\parallel^2_F \ s.t.\ diag(C)=0$
 
-where $\hat{X}_{\Theta}$ represents the data reconstructed by the auto-encoder. The second term of loss function is to find the tightest mapping and the third is to guarantee the self-expressiveness property of the new layer. And $C$ is treated as the parameters of an additional network layer, which lets us solve for $C$ using backpropagation.
+where $\hat{X}_{\Theta}$ represents the data reconstructed by the auto-encoder. The second term of loss function is to find the tightest mapping and the third is to guarantee the self-expressiveness property of the new layer.  $C$ is treated as the parameters of an additional network layer noted by $$, which lets us solve for $C$ using backpropagation.
 
 ## 4. Recurrence， Extension and Comparation
 

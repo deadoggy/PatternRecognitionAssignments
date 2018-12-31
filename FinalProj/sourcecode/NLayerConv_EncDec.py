@@ -6,7 +6,6 @@ from tensorflow.contrib import layers
 import numpy as np
 
 
-
 def gen_nlayer_conv_encoder(encoder_para):
 	'''
 		generate a n-layer convolutional encoder
