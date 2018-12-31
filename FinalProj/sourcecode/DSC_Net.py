@@ -68,10 +68,6 @@ class DSC_Net:
         self.tf_session.run(tf.global_variables_initializer())
         self.summary_wtr = tf.summary.FileWriter(self.log_path, graph=tf.get_default_graph())
 
-    def initlization(self):
-		tf.reset_default_graph()
-		self.tf_session.run(tf.global_variables_initializer())
-
     def train(self, X, learning_rate, ):
         # train
         Z, weight_mat, recover_loss, weight_loss, selfexp_loss, summary_op, optimizer = \
