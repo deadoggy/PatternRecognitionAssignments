@@ -17,7 +17,7 @@ from munkres import Munkres
 
 
 
-data_dict = sio.loadmat('/home/yinjia/Documents/Deep-subspace-clustering-networks/Data/COIL20.mat')
+data_dict = sio.loadmat('/home/yinjia/Documents/PatternRecognitionAssignments/FinalProj/dataset/COIL20.mat')
 
 ground_truth = data_dict['gnd']
 
@@ -70,6 +70,38 @@ def generate_affinity_mat(W, k, d, alpha):
     L = .5 * (L + L.T)
     return L
 
+def err_rate(gt_s, s):
+	c_x = best_map(gt_s,s)
+	err_x = np.sum(gt_s[:] != c_x[:])
+	missrate = err_x.astype(float) / (gt_s.shape[0])
+	return missrate 
+
+def best_map(L1,L2):
+	#L1 should be the labels and L2 should be the clustering number we got
+	Label1 = np.unique(L1)
+	nClass1 = len(Label1)
+	Label2 = np.unique(L2)
+	nClass2 = len(Label2)
+	nClass = np.maximum(nClass1,nClass2)
+	G = np.zeros((nClass,nClass))
+	for i in range(nClass1):
+		ind_cla1 = L1 == Label1[i]
+		ind_cla1 = ind_cla1.astype(float)
+		for j in range(nClass2):
+			ind_cla2 = L2 == Label2[j]
+			ind_cla2 = ind_cla2.astype(float)
+			G[i,j] = np.sum(ind_cla2 * ind_cla1)
+	m = Munkres()
+	index = m.compute(-G.T)
+	index = np.array(index)
+	c = index[:,1]
+	newL2 = np.zeros(L2.shape)
+	for i in range(nClass2):
+		newL2[L2 == Label2[i]] = Label1[c[i]]
+	return newL2
+
+#=================================================================================
+
 def convencdec_exp():
     '''
         run experiments of convolution and deconvolution coder
@@ -88,7 +120,7 @@ def convencdec_exp():
     decoder_para = {'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1]}
 
     dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/pr_final/single_layer/')
-    for itr in xrange(40):
+    for itr in xrange(30):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
         print "l1 %f"%(weight_loss/reg1)
@@ -96,19 +128,20 @@ def convencdec_exp():
         print "recon_loss %f"%recover_loss
     
     print "spectral clustering"
-    threshold_rate = 0.04
+    threshold_rate = 0.13
     k = 20
     # W = thrC(weight_mat, threshold_rate)
     # affinity_mat = post_proC(W, k, 12, 8)
 
     W = threshold_weightmat(weight_mat, threshold_rate)
-    affinity_mat = generate_affinity_mat(W, k, 18, 8)
+    affinity_mat = generate_affinity_mat(W, k, 12, 8)
 
     spec = cluster.SpectralClustering(n_clusters=k, affinity='precomputed', assign_labels='discretize')
     y_predict = spec.fit_predict(affinity_mat) + 1
     adj_rd_idx = adjusted_rand_score(ground_truth.T[0], y_predict)
+    acc_rate = 1. - err_rate(ground_truth.T[0], y_predict)
     dscnet.tf_session.close()
-    return adj_rd_idx
+    return adj_rd_idx, acc_rate
     
 def fully_exp():
     '''
@@ -118,14 +151,14 @@ def fully_exp():
     img_size = [None, 32, 32, 1]
     kernal_size = [3, 3, 1, 15]
     strides = [1, 2, 2, 1]
-    reg1 = 2.0
-    reg2 = 150.0
+    reg1 = 10.0
+    reg2 = 20.0
     lr = 1e-3
 
     encoder = gen_fully_connected_encoder
     decoder = gen_fully_connected_decoder
-    encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'fullyconn_outsize': 2500, 'batch_size':1440}
-    decoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1], 'fullyconn_insize': 2500}
+    encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'fullyconn_outsize': 2000, 'batch_size':1440}
+    decoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1], 'fullyconn_insize': 2000}
 
     dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/pr_final/conv_fully/')
     for itr in xrange(50):
@@ -145,8 +178,9 @@ def fully_exp():
     spec = cluster.SpectralClustering(n_clusters=k, affinity='precomputed', assign_labels='discretize')
     y_predict = spec.fit_predict(affinity_mat) + 1
     adj_rd_idx = adjusted_rand_score(ground_truth.T[0], y_predict)
+    acc_rate = 1. - err_rate(ground_truth.T[0], y_predict)
     dscnet.tf_session.close()
-    return adj_rd_idx
+    return adj_rd_idx, acc_rate
 
 def nl_convencdec_exp():
     '''
@@ -185,8 +219,9 @@ def nl_convencdec_exp():
     spec = cluster.SpectralClustering(n_clusters=k, affinity='precomputed', assign_labels='discretize')
     y_predict = spec.fit_predict(affinity_mat) + 1
     adj_rd_idx = adjusted_rand_score(ground_truth.T[0], y_predict)
+    acc_rate = 1. - err_rate(ground_truth.T[0], y_predict)
     dscnet.tf_session.close()
-    return adj_rd_idx
+    return adj_rd_idx, acc_rate
 
 
 print 'Single Layer Convolutional'
