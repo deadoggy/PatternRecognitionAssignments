@@ -78,7 +78,6 @@ def err_rate(gt_s, s):
 	return missrate 
 
 def best_map(L1,L2):
-	#L1 should be the labels and L2 should be the clustering number we got
 	Label1 = np.unique(L1)
 	nClass1 = len(Label1)
 	Label2 = np.unique(L2)
@@ -183,14 +182,14 @@ def fully_exp():
     dscnet.tf_session.close()
     return adj_rd_idx, acc_rate
 
-def nl_convencdec_exp():
+def nl_convencdec_exp(kernal_size, strides):
     '''
         run experiments of n-layers convolution and deconvolution coder
     '''
     imgs = np.reshape(data_dict['fea'], [len(data_dict['fea']), 32, 32, 1])
     img_size = [None, 32, 32, 1]
-    kernal_size = [[3, 3, 1, 5], [3, 3, 5, 5], [3,3,5,15]]
-    strides = [[1, 2, 2, 1], [1,1,1,1], [1,1,1,1]]
+    # kernal_size = [[3, 3, 1, 5], [3, 3, 5, 5], [3,3,5,15]]
+    # strides = [[1, 2, 2, 1], [1,1,1,1], [1,1,1,1]]
     reg1 = 1.0
     reg2 = 150.0
     lr = 1e-3
@@ -225,14 +224,28 @@ def nl_convencdec_exp():
     return adj_rd_idx, acc_rate
 
 
-# print 'Single Layer Convolutional'
-# print '==============================================================='
-# print convencdec_exp()
-
-# print 'Two Layer Convolutional'
-# print '==============================================================='
-# print nl_convencdec_exp()
-
-print 'Single Layer Convolutional + Fully Connected Layer'
-print '==============================================================='
-print fully_exp()
+if len(sys.argv)!=2:
+    print "Please specifiy which experiment to run"
+else:
+    if sys.argv[1]=='1cl':
+        print 'Single Convolutional Layer '
+        print '==============================================================='
+        print convencdec_exp()
+    elif sys.argv[1]=='2cl':
+        print '2 Convolutional Layers'
+        print '==============================================================='
+        kernal_size = [[3, 3, 1, 5], [3,3,5,15]]
+        strides = [[1, 2, 2, 1], [1,1,1,1]]
+        print nl_convencdec_exp(kernal_size, strides)
+    elif sys.argv[1]=='3cl':
+        print '3 Convolutional Layers'
+        print '==============================================================='
+        kernal_size = [[3, 3, 1, 5], [3, 3, 5, 5], [3,3,5,15]]
+        strides = [[1, 2, 2, 1], [1,1,1,1], [1,1,1,1]]
+        print nl_convencdec_exp(kernal_size, strides)
+    elif sys.argv[1]=='1c1f':
+        print 'Single Layer Convolutional + Fully Connected Layer'
+        print '==============================================================='
+        print fully_exp()
+    else:
+        print "Invalid parameter"

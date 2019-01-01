@@ -45,6 +45,12 @@ $L(\Theta, C)=\frac{1}{2}\parallel X-\hat{X}_{\Theta}\parallel^2_{F}+\lambda_{1}
 
 where $\hat{X}_{\Theta}$ represents the data reconstructed by the auto-encoder. The second term of loss function is to find the tightest mapping and the third is to guarantee the self-expressiveness property of the new layer.  $C$ is treated as the parameters of an additional network layer noted by $$, which lets us solve for $C$ using backpropagation.
 
+With the coefficient matrix $C$, there are many existing method to generate a weight matrix. The author used the following method:
+
+1. Compute the $SVD$ of $C$, i.e., $C=U\Sigma V^{T}$, and let $m=k\times d+1$, where $d$ di the maximal intrinsic dimension of the subspaces.
+2. Let $Z=U_m\Sigma^{\frac{1}{2}}_m$, where $U_m$ is the $N\times m$ matrix containing the first $m$ columns of $U$, and normalize each row of $Z$ to hace unit norm.
+3. Build the weight matrix $W$, such that $W_{ij}=[ZZ^{T}]^{\aleph}_{ij}$, where $\aleph$ is empirically selected according to the level of noise.
+
 ## 4. Performance
 
 ### 4.1 Source Code Structure
