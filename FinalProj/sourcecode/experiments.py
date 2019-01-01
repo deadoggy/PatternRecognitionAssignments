@@ -8,9 +8,9 @@ import scipy.io as sio
 from scipy.sparse.linalg import svds
 from sklearn.preprocessing import normalize
 import sys
-from Conv_EncDec import gen_conv_decoder, gen_conv_encoder
-from Fully_Connected_EncDec import gen_fully_connected_encoder, gen_fully_connected_decoder
-from NLayerConv_EncDec import gen_nlayer_conv_encoder, gen_nlayer_conv_decoder
+from EncDec.Conv_EncDec import gen_conv_decoder, gen_conv_encoder
+from EncDec.Fully_Connected_EncDec import gen_fully_connected_encoder, gen_fully_connected_decoder
+from EncDec.NLayerConv_EncDec import gen_nlayer_conv_encoder, gen_nlayer_conv_decoder
 from DSC_Net import DSC_Net
 from sklearn.metrics.cluster import adjusted_rand_score
 from munkres import Munkres

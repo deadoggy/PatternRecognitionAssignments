@@ -1,4 +1,4 @@
-## 3. Theory
+## 3. Structure/Workflow: Theory of Deep Subspace Clustering Network
 
 Deep subspace clustering is composed by three parts: spectral clustering, self-expressiveness and autoencoder.
 
@@ -45,7 +45,11 @@ $L(\Theta, C)=\frac{1}{2}\parallel X-\hat{X}_{\Theta}\parallel^2_{F}+\lambda_{1}
 
 where $\hat{X}_{\Theta}$ represents the data reconstructed by the auto-encoder. The second term of loss function is to find the tightest mapping and the third is to guarantee the self-expressiveness property of the new layer.  $C$ is treated as the parameters of an additional network layer noted by $$, which lets us solve for $C$ using backpropagation.
 
-## 4. Recurrence， Extension and Comparation
+## 4. Performance: Recurrence， Extension and Comparation
+
+### 4.1 Source Code Structure
+
+To recurrence the method proposed in paper, we divided the source code into three main parts. The
 
 ## 5. Discussion
 
