@@ -59,6 +59,7 @@ def generate_affinity_mat(W, k, d, alpha):
 
     m = k * d + 1
     W = .5 * (W + W.T) # make sure W is a sym mat in case of precision errors
+    W = W - np.diag(np.diag(W)) + np.eye(W.shape[0],W.shape[0])
     U, Sigma, VT = svds(W, m)
     U = U[:,::-1] # reserves the order of U because return of svds is in descend order
     Sigma = np.diag(np.sqrt(Sigma[::-1]))
@@ -119,7 +120,7 @@ def convencdec_exp():
     encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides}
     decoder_para = {'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1]}
 
-    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/pr_final/single_layer/')
+    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, sys.path[0] + '/../')
     for itr in xrange(30):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
@@ -128,7 +129,7 @@ def convencdec_exp():
         print "recon_loss %f"%recover_loss
     
     print "spectral clustering"
-    threshold_rate = 0.13
+    threshold_rate = 0.04
     k = 20
     # W = thrC(weight_mat, threshold_rate)
     # affinity_mat = post_proC(W, k, 12, 8)
@@ -160,8 +161,8 @@ def fully_exp():
     encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'fullyconn_outsize': 2000, 'batch_size':1440}
     decoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1], 'fullyconn_insize': 2000}
 
-    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/pr_final/conv_fully/')
-    for itr in xrange(50):
+    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, sys.path[0] + '/../')
+    for itr in xrange(40):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
         print "l1 %f"%(weight_loss/reg1)
@@ -169,11 +170,11 @@ def fully_exp():
         print "recon_loss %f"%recover_loss
     
     print "spectral clustering"
-    threshold_rate = 1.
+    threshold_rate = .04
     k = 20
 
     W = threshold_weightmat(weight_mat, threshold_rate)
-    affinity_mat = generate_affinity_mat(W, k, 18, 8)
+    affinity_mat = generate_affinity_mat(W, k, 12, 8)
 
     spec = cluster.SpectralClustering(n_clusters=k, affinity='precomputed', assign_labels='discretize')
     y_predict = spec.fit_predict(affinity_mat) + 1
@@ -188,8 +189,8 @@ def nl_convencdec_exp():
     '''
     imgs = np.reshape(data_dict['fea'], [len(data_dict['fea']), 32, 32, 1])
     img_size = [None, 32, 32, 1]
-    kernal_size = [[3, 3, 1, 5], [3,3,5,15]]
-    strides = [[1, 2, 2, 1], [1,1,1,1]]
+    kernal_size = [[3, 3, 1, 5], [3, 3, 5, 5], [3,3,5,15]]
+    strides = [[1, 2, 2, 1], [1,1,1,1], [1,1,1,1]]
     reg1 = 1.0
     reg2 = 150.0
     lr = 1e-3
@@ -199,7 +200,7 @@ def nl_convencdec_exp():
     encoder_para = {'img_size':img_size, 'kernal_size':kernal_size, 'strides':strides}
     decoder_para = {'kernal_size':kernal_size, 'strides':strides, 'output_size':[1440, 32, 32, 1]}
 
-    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, '/log/pr_final/n_layer/')
+    dscnet = DSC_Net(encoder, encoder_para, decoder, decoder_para, len(imgs), img_size, reg1, reg2, sys.path[0] + '/../')
     for itr in xrange(40):
         print itr
         weight_mat, recover_loss, weight_loss, selfexp_loss = dscnet.train(imgs, lr)
@@ -214,7 +215,7 @@ def nl_convencdec_exp():
     # affinity_mat = post_proC(W, k, 12, 8)
 
     W = threshold_weightmat(weight_mat, threshold_rate)
-    affinity_mat = generate_affinity_mat(W, k, 18, 8)
+    affinity_mat = generate_affinity_mat(W, k, 20, 8)
 
     spec = cluster.SpectralClustering(n_clusters=k, affinity='precomputed', assign_labels='discretize')
     y_predict = spec.fit_predict(affinity_mat) + 1
@@ -224,14 +225,14 @@ def nl_convencdec_exp():
     return adj_rd_idx, acc_rate
 
 
-print 'Single Layer Convolutional'
-print '==============================================================='
-print convencdec_exp()
+# print 'Single Layer Convolutional'
+# print '==============================================================='
+# print convencdec_exp()
 
 # print 'Two Layer Convolutional'
 # print '==============================================================='
 # print nl_convencdec_exp()
 
-# print 'Single Layer Convolutional + Fully Connected Layer'
-# print '==============================================================='
-# print fully_exp()
+print 'Single Layer Convolutional + Fully Connected Layer'
+print '==============================================================='
+print fully_exp()
